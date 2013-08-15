@@ -1,0 +1,17 @@
+# Meteor packages used by this project, one per line.
+#
+# 'meteor add' and 'meteor remove' will edit this file for you,
+# but you can also edit it by hand.
+
+preserve-inputs
+less
+insecure
+standard-app-packages
+bootstrap3-less
+HTML5-History-API
+npm
+page-js-ie-support
+popcorn
+coffeescript
+router
+amplify

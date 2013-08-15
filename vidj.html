@@ -1,0 +1,182 @@
+<head>
+  <title>Vidj</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://apis.google.com/js/client.js?onload=OnLoadCallback"></script>
+</head>
+
+<body>
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container" id="big">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+
+        <a class="navbar-brand" href="/">ViDJ.tv</a>
+
+        <div class="nav-collapse collapse navbar-responsive-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/rooms"><span class="purp">Browse</span> Rooms</a></li>
+                <li><a href="/rooms/find"><i class="icon-edit icon-white"></i><span class="blue">Find</span> a Private Room</a></li>
+                <li><a href="/rooms/new/add"><i class="icon-edit icon-white"></i><span class="green">Create</span> a Room</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav pull-right">
+                <li class="about-menu"><a href="/about">About</a></li>
+            </ul>
+        </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="page">
+        {{renderPage}}
+    </div>
+  </div> 
+</body>
+
+<template name="Home">
+  <div class="wide col-lg-12">
+    <div class="alpha60 tall">
+      <h1 class="large text-center"><span class="blue">Welcome</span> to <span class="purp">Vi</span><span class="font-weight:bold"><span class="purp">D</span>J</span>.tv</h1>
+      <br/>
+      <div class="buttonsHome text-center">
+        <a class="btn btn-lg btn-home" href="/rooms">Browse Room</a>
+        <a class="btn btn-lg btn-home" href="/rooms/find">Enter a Private Room</a>
+        <a class="btn btn-lg btn-home" href="/rooms/new/add">Create a Room</a>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="CreateARoom">
+  <div class="row-fluid">
+    <div class="alpha60 create">
+        <form class="form-horizontal">
+            <fieldset>
+                <legend>Create a Room</legend>
+                <div class="form-group">
+                    <label for="name" class="control-label col-lg-2">Name:</label>
+                    <div class="col-lg-10">
+                        <input type="text" id="name" class="form-control" name="name" placeholder="eg(Kickback Supreme)"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="isPrivate" class="control-label col-lg-2">Private Room?:</label>
+                    <div class="col-lg-10">
+                        <input type="checkbox" id="isPrivate" name="isPrivate" />
+                    </div>
+                </div>
+                <div class="form-actions col-lg-offset-2 col-lg-10">
+                    <a href="" class="btn btn-primary save">Save</a>
+                    <a href="javascript:history.back(-1);" class="btn delete">Cancel</a>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+  </div>
+  <div class="row-fluid status-bar">
+      <div>
+          <div class="alert alert-success" style="display: none">
+              <b>Success!</b> Wine saved successfully
+          </div>
+      </div>
+  </div>
+</template>
+
+<template name="BrowseRooms">
+  {{#if loading}}
+    <div id="rooms">Loading...</div>
+  {{else}}
+    <div class="page alpha60">
+      <ul class="thumbnailsLeft">
+        {{#each rooms}}
+          <a href="/rooms/{{_id}}" class="thumbnail btn-room btn-lg" style="text-align: center;">
+            <h5>{{name}}</h5>
+          </a>
+        {{/each}}
+      </ul>
+    </div>
+  {{/if}}
+</template>
+
+<template name="FindRoom">
+  <div class="row-fluid">
+    <div class="alpha60 create">
+        <form class="form-horizontal">
+            <fieldset>
+                <legend>Find a Private Room</legend>
+                <div id="error">No Room with that ID</div>
+                <div class="form-group">
+                    <label for="privateId" class="control-label col-lg-2">Room Id:</label>
+                    <div class="col-lg-10">
+                        <input type="text" id="privateId" class="form-control" name="privateId" placeholder="eg(Kickback Supreme)"/>
+                    </div>
+                </div>
+                <div class="form-actions col-lg-offset-2 col-lg-10">
+                    <a href="" class="btn btn-primary goToRoom">Go!</a>
+                    <a href="javascript:history.back(-1);" class="btn delete">Cancel</a>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+  </div>
+</template>
+
+<template name="AddVideoScreen">
+  <div class="row-fluid">
+    <div class="alpha60 create">
+        <form class="form-horizontal">
+            <fieldset>
+                <legend>Add a Video</legend>
+                <div class="form-group">
+                    <label for="url" class="control-label col-lg-2">URL:</label>
+                    <div class="col-lg-10">
+                        <input type="text" id="url" class="form-control" name="url" placeholder="eg(http://youtu.be/oEXyTJj6MM0)"/>
+                    </div>
+                </div>
+                <div class="form-actions col-lg-offset-2 col-lg-10">
+                    <a href="" class="btn btn-primary addVideo">Add!</a>
+                    <a href="javascript:history.back(-1);" class="btn delete">Cancel</a>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+  </div>
+</template>
+
+<template name="EnteredRoom">
+  {{#if loading}}
+    <div id="entered" style="font-size:30px;color:white">Loading...</div>
+  {{else}}
+    <div class="alpha60 currRoom">
+      <div class="row">
+        <legend class="col-9 col-lg-9 down">{{room.name}} with ID: {{room._id}}</legend>
+        <div class="col-lg-3 col-3"><a id="addVideo" href="/rooms/{{room._id}}/addVideo"><h5 class="plus">+</h5></a></div>
+      </div>
+        {{#constant}}
+        {{#if video_objs}}
+          <div class="video-container" id="video-container">
+            <div id='youtube-video'></div>
+          </div>
+        {{else}}
+        <div style="font-size:30px;color:white;">No Videos :( Try adding one!</div>
+        {{/if}}
+        {{/constant}}
+        {{#isolate}}
+          <div class="playlist">
+            {{#each videoData}}
+               {{this}}
+            {{/each}}
+          </div>
+        {{/isolate}}
+    <div>
+  {{/if}}
+</template>
+
+<template name="about">
+</template>
+
+<template name="loadingPage">
+  <div style="color: white; font-size: 50px;">Loading.....</div>
+</template>
