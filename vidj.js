@@ -189,6 +189,7 @@ if (Meteor.isClient) {
 
   Template.CreateARoom.events({
     'click .save' : function () {
+      console.log('there');
       var newRoomName = $('#name').val();
       var makePrivate = $('#isPrivate').is(':checked');
       Meteor.call("create_room", newRoomName, makePrivate, function(error,room_id) {
