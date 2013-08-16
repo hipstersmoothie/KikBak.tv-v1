@@ -3,7 +3,7 @@ Videos = new Meteor.Collection("videosQue");
 
 if (Meteor.isServer) {
   Meteor.startup(function () {
-    Rooms.remove({});
+    //Rooms.remove({});
   });
 
   // Rooms -- { name: String,
@@ -78,10 +78,15 @@ if (Meteor.isClient) {
     '/rooms/new/add': 'CreateARoom',
     '/rooms/find':'FindRoom',
     '/rooms/:id/addVideo' : 'AddVideoScreen',
+    '/rooms/:id/mode' : function(id) {
+      AmplifiedSession.set("room_id", id);
+      console.log(AmplifiedSession.get('room_id')); //weird bug, have to print to restore session properly
+      return 'ChooseModeScreen';
+    },
     '/rooms/:id' : function(id) {
       AmplifiedSession.set("room_id", id);
       AmplifiedSession.set('playing', false);
-      console.log(AmplifiedSession.get('room_id'));
+      console.log(AmplifiedSession.get('room_id')); //weird bug, have to print to restore session properly
       return 'EnteredRoom';
     },
     '/rooms' : function() {
@@ -129,9 +134,9 @@ if (Meteor.isClient) {
   };
 
   Template.EnteredRoom.videoData = function() {
-    var videoData = {}, ids = "";
-
+    var ids = ""
     AmplifiedSession.set('videos', Videos.findOne({room_id: AmplifiedSession.get('room_id')}));
+
     for(var i = 0; i < AmplifiedSession.get('videos').videoIds.length; i++) {
       if (AmplifiedSession.get('videos').videoIds[i]) {
         ids += AmplifiedSession.get('videos').videoIds[i]
@@ -144,9 +149,22 @@ if (Meteor.isClient) {
     gapi.client.load('youtube', 'v3', function() { 
       var request = gapi.client.youtube.videos.list({part:'snippet', id: ids});
       request.execute(function(response) {
-        return response.items;
+        var color = false;
+        for(var i = 0; i < response.items.length; i++) {
+          var style = "";
+          if (color) {
+            style = "blue";
+          }
+          else {
+            style = "purp";
+          }
+          color = !color;
+          $('.playlist').append('<span class="future col-lg-12 ' + style + '">' + response.items[i].snippet.title + '</span>');
+        }
       });
     });
+
+    return AmplifiedSession.get('videos').videoIds;
   };
 
   var renderVid = function(playlist, currVid) {
@@ -164,6 +182,55 @@ if (Meteor.isClient) {
       }
     });
   }
+
+  Template.EnteredRoom.events({
+    'click #toAddVideo' : function () {
+      $('.playlist').hide();
+      $('.addVideoPanel').show();
+    },
+    'click #toPlaylist' : function() {
+      $('.playlist').show();
+      $('.addVideoPanel').hide();
+    }
+    ,
+    'click .delete' : function() {
+      $('.playlist').show();
+      $('.addVideoPanel').hide();
+    },
+    'click .addVideo' : function () {
+      var newUrl = $('#url').val();
+      var videoId = newUrl.split(/[\\=]+/);
+      var time = new Date().getTime();
+      id = videoId[videoId.length-1];
+      vid_id = AmplifiedSession.get('videos_id') ? AmplifiedSession.get('videos_id') : Videos.findOne({room_id: AmplifiedSession.get('room_id')})._id;
+      Videos.update({ _id: vid_id}, {$inc:{totalVideos:1},
+                                    $push:{videoIds: id},
+                                    $set:{modified_on: time}}, function (error) {
+        if (error) 
+          console.log(error);
+
+        $('.playlist').show();
+        $('.addVideoPanel').hide();
+      });
+      
+    }
+  });
+
+  /////////////////// Choose Mode ///////////////////
+
+  Template.ChooseModeScreen.events({
+    'click .theater' : function() {
+      AmplifiedSession.set('mode', 'theater');
+    },
+    'click .submitter' : function() {
+      AmplifiedSession.set('mode', 'submitter');
+    }
+  });
+
+  Template.ChooseModeScreen.room = function () {
+    return Rooms.findOne(AmplifiedSession.get('room_id'));
+  };
+
   /////////////////// Add Video ///////////////////
 
   Template.AddVideoScreen.events({
@@ -179,7 +246,10 @@ if (Meteor.isClient) {
         if (error) 
           console.log(error);
 
-        Meteor.Router.to('/rooms/' + AmplifiedSession.get('room_id'));
+        if (!AmplifiedSession.equals('mode','submitter')) 
+          Meteor.Router.to('/rooms/' + AmplifiedSession.get('room_id'));
+        
+        $('.success').append('<p class="successMessage">Success!</p>');
       });
       
     }
@@ -189,7 +259,6 @@ if (Meteor.isClient) {
 
   Template.CreateARoom.events({
     'click .save' : function () {
-      console.log('there');
       var newRoomName = $('#name').val();
       var makePrivate = $('#isPrivate').is(':checked');
       Meteor.call("create_room", newRoomName, makePrivate, function(error,room_id) {
