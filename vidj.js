@@ -85,11 +85,9 @@ if (Meteor.isClient) {
       return 'ChooseModeScreen';
     },
     '/rooms/:id' : function(id) {
-      AmplifiedSession.set("room_id", id, function() {
-        console.log('here');
-      });
+      AmplifiedSession.set("room_id", id);
       AmplifiedSession.set('playing', false);
-      AmplifiedSession.get('room_id'); //weird bug, have to print to restore session properly
+      console.log(AmplifiedSession.get('room_id')); //weird bug, have to print to restore session properly
       return 'EnteredRoom';
     },
     '/rooms' : function() {
