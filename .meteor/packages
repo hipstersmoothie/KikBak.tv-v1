@@ -7,7 +7,6 @@ preserve-inputs
 less
 insecure
 standard-app-packages
-bootstrap3-less
 HTML5-History-API
 npm
 page-js-ie-support
@@ -15,3 +14,4 @@ popcorn
 coffeescript
 router
 amplify
+bootstrap-3

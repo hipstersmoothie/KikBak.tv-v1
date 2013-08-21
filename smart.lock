@@ -2,36 +2,41 @@
   "meteor": {},
   "dependencies": {
     "basePackages": {
-      "bootstrap3-less": {},
       "router": {},
       "npm": {},
-      "popcorn": {}
+      "popcorn": {},
+      "bootstrap-3": {}
     },
     "packages": {
-      "bootstrap3-less": {
-        "git": "https://github.com/eprochasson/bootstrap3-less",
-        "tag": "v0.0.2",
-        "commit": "3e6bd0bb4b9a69dd76c98c27d3b33139e83aa408"
-      },
       "router": {
         "git": "https://github.com/tmeasday/meteor-router.git",
-        "tag": "v0.5.3",
-        "commit": "7bd3a1bdd1099625bb8b49406d9b8f961d6f4a17"
+        "tag": "v0.5.4",
+        "commit": "e40ee450a756b54a32ed67be4595772403256fb5"
       },
       "npm": {
         "git": "https://github.com/arunoda/meteor-npm.git",
-        "tag": "v0.1.4",
-        "commit": "68ab2b952ab21a5bbba879b37be9385ec8ff6d63"
+        "tag": "v0.2.2",
+        "commit": "ad83acff83385d5ea05997c8bbc2d7493ba4c04e"
       },
       "popcorn": {
         "git": "https://github.com/santihbc/meteor-popcorn-js.git",
         "tag": "v0.1.0",
         "commit": "20c5e438f0d1634f7c2ca3b0f78ac0bf63cb2e7c"
       },
+      "bootstrap-3": {
+        "git": "https://github.com/mangasocial/meteor-bootstrap-3.git",
+        "tag": "v0.3.2",
+        "commit": "a09f87b01f625ca86d97f93206e7ff475cf3db3b"
+      },
       "page-js-ie-support": {
         "git": "https://github.com/tmeasday/meteor-page-js-ie-support.git",
         "tag": "v1.3.5",
         "commit": "b99ed8380aefd10b2afc8f18d9eed4dd0d8ea9cb"
+      },
+      "HTML5-History-API": {
+        "git": "https://github.com/tmeasday/meteor-HTML5-History-API.git",
+        "tag": "v4.0.0",
+        "commit": "dc4965f1424cfca625ec3fbea17eace03f8e32c5"
       }
     }
   }

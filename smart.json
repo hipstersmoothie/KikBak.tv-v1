@@ -1,8 +1,8 @@
 {
   "packages": {
-    "bootstrap3-less": {},
     "router": {},
     "npm": {},
-    "popcorn": {}
+    "popcorn": {},
+    "bootstrap-3": {}
   }
 }

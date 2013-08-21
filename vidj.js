@@ -36,7 +36,7 @@ if (Meteor.isServer) {
       var videos_id = Videos.insert({videos: [],
                      videoIds: [],
                      totalVideos: 0,
-                     currentVideoId: null,
+                     currentVideoIndex: 0,
                      room_id: room_id});
       return videos_id;
     }
@@ -59,6 +59,7 @@ if (Meteor.isClient) {
     AmplifiedSession.set('videos', null);
     AmplifiedSession.set('videos_id', null);
     AmplifiedSession.set('playing', false);
+    AmplifiedSession.set('adding', false);
   });
 
   var roomsHandle = Meteor.subscribe('rooms');
@@ -98,13 +99,13 @@ if (Meteor.isClient) {
     },
     '/about' : 'about',
     '/loadingPage' :'loadingPage',
-    '/': 'Home'
+    '/': 'Home',
+    '/contact': 'Contact'
   });
 
   /////////////////// Browse Rooms ///////////////////
 
   Template.BrowseRooms.loading = function () {
-    $('#big').css({"max-width":"100%"});
     return !roomsHandle.ready();
   };
 
@@ -121,14 +122,22 @@ if (Meteor.isClient) {
     return Rooms.findOne(AmplifiedSession.get('room_id'));
   };
 
+  Template.EnteredRoom.adding = function () {
+    return !AmplifiedSession.get('adding');
+  };
+
   Template.EnteredRoom.video_objs = function () {
     return Videos.findOne({room_id: AmplifiedSession.get('room_id')}).videoIds.length;
   };
 
   Template.EnteredRoom.rendered = function () {
-    if(!AmplifiedSession.get('playing') && AmplifiedSession.get('videos') && AmplifiedSession.get('videos').videoIds.length) {
+    console.log(AmplifiedSession.get('videos').videoIds.length);
+
+    if(!AmplifiedSession.get('playing') && !AmplifiedSession.get('adding') && AmplifiedSession.get('videos') && AmplifiedSession.get('videos').videoIds.length) {
+      $('#youtube-video').show();
       AmplifiedSession.set('playing', true);
-      var currVid = 0, playlist = AmplifiedSession.get('videos').videoIds;
+      var currVid = 0; // AmplifiedSession.get('videos').currentVideoIndex, 
+          playlist = AmplifiedSession.get('videos').videoIds;
       renderVid(playlist, currVid);
     }
   };
@@ -137,7 +146,7 @@ if (Meteor.isClient) {
     var ids = ""
     AmplifiedSession.set('videos', Videos.findOne({room_id: AmplifiedSession.get('room_id')}));
 
-    for(var i = 0; i < AmplifiedSession.get('videos').videoIds.length; i++) {
+    for(var i = AmplifiedSession.get('haveData') ? AmplifiedSession.get('haveData') : 0; i < AmplifiedSession.get('videos').videoIds.length; i++) {
       if (AmplifiedSession.get('videos').videoIds[i]) {
         ids += AmplifiedSession.get('videos').videoIds[i]
         if (i < AmplifiedSession.get('videos').videoIds.length - 1)
@@ -145,57 +154,58 @@ if (Meteor.isClient) {
       }
     }
 
+
     gapi.client.setApiKey("AIzaSyCnGXLE1spj9r30DJAkXCXcrAVCBXV73xM");
     gapi.client.load('youtube', 'v3', function() { 
       var request = gapi.client.youtube.videos.list({part:'snippet', id: ids});
       request.execute(function(response) {
         var color = false;
+        $('.playlist').html('');
+
         for(var i = 0; i < response.items.length; i++) {
           var style = "";
-          if (color) {
+          if (color) 
             style = "blue";
-          }
-          else {
+          else 
             style = "purp";
-          }
           color = !color;
-          $('.playlist').append('<span class="future col-lg-12 ' + style + '">' + response.items[i].snippet.title + '</span>');
+          
+          $('.playlist').append('<div class="next"><span class="future col-lg-12 ' + style + '">' + response.items[i].snippet.title + '<span class="hidden vId">' + i + '</span></span></div>');
+
         }
+        return response;
       });
     });
 
     return AmplifiedSession.get('videos').videoIds;
   };
 
-  var renderVid = function(playlist, currVid) {
-    var video = Popcorn.youtube('#youtube-video', 'http://www.youtube.com/embed/' + playlist[currVid] + '&autoplay=1');
+  var video= {};
 
+  var renderVid = function(playlist, currVid) {
+    video = Popcorn.smart('#youtube-video', 'http://www.youtube.com/embed/' + playlist[currVid] + '&html5=1');
     video.on("ended", function() {
       playlist = AmplifiedSession.get('videos').videoIds;
-      if (++currVid < playlist.length) {
-        AmplifiedSession.set('currentVideo', playlist[currVid]);
+      console.log(AmplifiedSession.get('videos').videoIds.length);
+      if (++currVid < AmplifiedSession.get('videos').videoIds.length) {
+        // if(AmplifiedSession.get('videos').currentVideoIndex < currVid)
+        //   Videos.update({ _id: AmplifiedSession.get('videos')._id}, {$set:{currentVideoIndex: currVid}});
         renderVid(playlist, currVid);
       }
       else {
+        AmplifiedSession.set('playing', false);
         $('#youtube-video').hide();
-        $('#video-container').append('<div style="font-size:30px;color:white;">No Videos :( Try adding one!</div>');
+        $('.error').show();
       }
     });
   }
 
   Template.EnteredRoom.events({
     'click #toAddVideo' : function () {
-      $('.playlist').hide();
-      $('.addVideoPanel').show();
+      AmplifiedSession.set('adding', true);
     },
-    'click #toPlaylist' : function() {
-      $('.playlist').show();
-      $('.addVideoPanel').hide();
-    }
-    ,
     'click .delete' : function() {
-      $('.playlist').show();
-      $('.addVideoPanel').hide();
+      AmplifiedSession.set('adding', false);
     },
     'click .addVideo' : function () {
       var newUrl = $('#url').val();
@@ -209,10 +219,13 @@ if (Meteor.isClient) {
         if (error) 
           console.log(error);
 
-        $('.playlist').show();
-        $('.addVideoPanel').hide();
+        AmplifiedSession.set('adding', false);
       });
-      
+    },
+    'click .next' : function(event) {
+      video.destroy();
+      var currVid = event.srcElement.children[0].childNodes[0].data, playlist = AmplifiedSession.get('videos').videoIds;
+      renderVid(playlist, currVid);
     }
   });
 
@@ -236,9 +249,13 @@ if (Meteor.isClient) {
   Template.AddVideoScreen.events({
     'click .addVideo' : function () {
       var newUrl = $('#url').val();
-      var videoId = newUrl.split(/[\\=]+/);
       var time = new Date().getTime();
-      id = videoId[videoId.length-1];
+
+      if (newUrl.indexOf('youtu') != -1) {
+        var videoId = newUrl.split(/[\\=]+/);
+        id = videoId[videoId.length-1];
+      }
+
       vid_id = AmplifiedSession.get('videos_id') ? AmplifiedSession.get('videos_id') : Videos.findOne({room_id: AmplifiedSession.get('room_id')})._id;
       Videos.update({ _id: vid_id}, {$inc:{totalVideos:1},
                                     $push:{videoIds: id},
@@ -277,7 +294,7 @@ if (Meteor.isClient) {
     'click .goToRoom' : function () {
       var room_id = $('#privateId').val();
       if(Rooms.findOne(room_id))
-        Meteor.Router.to('/rooms/' + room_id);
+        Meteor.Router.to('/rooms/' + room_id + '/mode');
       else 
         $('#error').show();
     }
