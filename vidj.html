@@ -142,7 +142,7 @@
         <form class="form-horizontal">
             <fieldset>
                 <legend>Add a Video</legend>
-                <div class="col-lg-2">
+                <!-- <div class="col-lg-2">
                   <label class="control-label medaiLabel">Media Type:</label>
                 </div>
                 <div class="col-lg-10 mediaInput">
@@ -151,7 +151,7 @@
                     <option>Vimeo</option>
                     <option>YouTube</option>
                   </select>
-                </div>
+                </div> -->
                 <div class="form-group">
                     <label for="url" class="control-label col-lg-2">URL:</label>
                     <div class="col-lg-10">
@@ -164,8 +164,14 @@
                 </div>
             </fieldset>
         </form>
-        <div class="success">
+        {{#if videoData}}
+        <div class="text-center">
+          <h2>Current Playlist:</h2>
+          <div class="playlist text-center">
+            {{videoData}}
+          </div>    
         </div>
+        {{/if}}
     </div>
   </div>
 </template>
@@ -200,19 +206,20 @@
                 {{else}}
                 <div class="addVideoPanel">
                   <form class="form-horizontal">
-                    <fieldset>
                       <h5>Add a Video</h5>
-                      <div class="form-group">
-                        <label for="url" class="control-label col-lg-2">URL:</label>
-                        <div class="col-lg-10">
-                          <input type="text" id="url" class="form-control" name="url" placeholder="eg(http://youtu.be/oEXyTJj6MM0)"/>
-                        </div>
+
+
+                      <div class="input-group">
+                        <input type="text" class="form-control" id="searchTerms">
+                        <span class="input-group-btn">
+                          <button class="btn btn-default searchYoutube addVideo" type="button">Search!</button>
+                        </span>
                       </div>
+                      <div id="results"></div>
                       <div class="form-actions col-lg-offset-2 col-lg-10">
-                        <input type="submit" value="Add!" onclick="return false;" class="btn btn-primary addVideo" />
+                        <input type="submit" value="Add!" onclick="return false;" class="btn btn-primary " />
                         <a class="btn delete">Cancel</a>
                       </div>
-                    </fieldset>
                   </form>
                 </div>
                 {{/if}}

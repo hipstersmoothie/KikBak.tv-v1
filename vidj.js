@@ -133,6 +133,11 @@ if (Meteor.isClient) {
   Template.EnteredRoom.rendered = function () {
     console.log(AmplifiedSession.get('videos').videoIds.length);
 
+    $("#searchTerms").keyup(function (e) {
+        if (e.keyCode == 13) {
+            searchVids();
+        }
+    });
     if(!AmplifiedSession.get('playing') && !AmplifiedSession.get('adding') && AmplifiedSession.get('videos') && AmplifiedSession.get('videos').videoIds.length) {
       $('#youtube-video').show();
       AmplifiedSession.set('playing', true);
@@ -143,9 +148,8 @@ if (Meteor.isClient) {
   };
 
   Template.EnteredRoom.videoData = function() {
-    var ids = ""
     AmplifiedSession.set('videos', Videos.findOne({room_id: AmplifiedSession.get('room_id')}));
-
+    var ids = ""
     for(var i = AmplifiedSession.get('haveData') ? AmplifiedSession.get('haveData') : 0; i < AmplifiedSession.get('videos').videoIds.length; i++) {
       if (AmplifiedSession.get('videos').videoIds[i]) {
         ids += AmplifiedSession.get('videos').videoIds[i]
@@ -153,7 +157,6 @@ if (Meteor.isClient) {
           ids += ',';
       }
     }
-
 
     gapi.client.setApiKey("AIzaSyCnGXLE1spj9r30DJAkXCXcrAVCBXV73xM");
     gapi.client.load('youtube', 'v3', function() { 
@@ -171,9 +174,7 @@ if (Meteor.isClient) {
           color = !color;
           
           $('.playlist').append('<div class="next"><span class="future col-lg-12 ' + style + '">' + response.items[i].snippet.title + '<span class="hidden vId">' + i + '</span></span></div>');
-
         }
-        return response;
       });
     });
 
@@ -200,12 +201,53 @@ if (Meteor.isClient) {
     });
   }
 
+  var searchVids = function() {
+    var searchTerms = $('#searchTerms').val();
+    var request = gapi.client.youtube.search.list({
+      q: searchTerms,
+      part: 'snippet',
+      type: 'video'
+    });
+    request.execute(function(response) {
+      var color;
+      for (var i = 0; i < response.result.items.length; i++) {
+        var style = "";
+        if (color) 
+          style = "blue";
+        else 
+          style = "purp";
+        color = !color;
+
+        $('#results').append('<div class="choose"><span class="futue col-lg-12 ' + style + '">' + response.result.items[i].snippet.title + 'from </br>' + response.result.items[i].snippet.channelTitle + '<span class="hidden vId">' + response.result.items[i].id.videoId + '</span></span></div>');
+      };
+    });
+  };
+
+  var getPlaylist = function() {
+    
+  };
+
   Template.EnteredRoom.events({
     'click #toAddVideo' : function () {
       AmplifiedSession.set('adding', true);
     },
     'click .delete' : function() {
       AmplifiedSession.set('adding', false);
+    },
+    'click .searchYoutube' : function() {
+      searchVids();
+    },
+    'click .choose' : function(event) {
+      var chosen = event.srcElement.children[1].childNodes[0].data;
+      vid_id = AmplifiedSession.get('videos_id') ? AmplifiedSession.get('videos_id') : Videos.findOne({room_id: AmplifiedSession.get('room_id')})._id;
+      Videos.update({ _id: vid_id}, {$inc:{totalVideos:1},
+                                    $push:{videoIds: chosen}}, function (error) {
+        if (error) 
+          console.log(error);
+
+        AmplifiedSession.set('adding', false);
+      });
+      console.log(chosen);
     },
     'click .addVideo' : function () {
       var newUrl = $('#url').val();
@@ -246,6 +288,40 @@ if (Meteor.isClient) {
 
   /////////////////// Add Video ///////////////////
 
+  Template.AddVideoScreen.videoData = function() {
+    AmplifiedSession.set('videos', Videos.findOne({room_id: AmplifiedSession.get('room_id')}));
+    var ids = ""
+    for(var i = AmplifiedSession.get('haveData') ? AmplifiedSession.get('haveData') : 0; i < AmplifiedSession.get('videos').videoIds.length; i++) {
+      if (AmplifiedSession.get('videos').videoIds[i]) {
+        ids += AmplifiedSession.get('videos').videoIds[i]
+        if (i < AmplifiedSession.get('videos').videoIds.length - 1)
+          ids += ',';
+      }
+    }
+
+    gapi.client.setApiKey("AIzaSyCnGXLE1spj9r30DJAkXCXcrAVCBXV73xM");
+    gapi.client.load('youtube', 'v3', function() { 
+      var request = gapi.client.youtube.videos.list({part:'snippet', id: ids});
+      request.execute(function(response) {
+        var color = false;
+        $('.playlist').html('');
+
+        for(var i = 0; i < response.items.length; i++) {
+          var style = "";
+          if (color) 
+            style = "blue";
+          else 
+            style = "purp";
+          color = !color;
+          
+          $('.playlist').append('<div class="next"><span class="future col-lg-12 ' + style + '">' + response.items[i].snippet.title + '<span class="hidden vId">' + i + '</span></span></div>');
+        }
+      });
+    });
+
+    return AmplifiedSession.get('videos').videoIds;
+  };
+
   Template.AddVideoScreen.events({
     'click .addVideo' : function () {
       var newUrl = $('#url').val();
@@ -265,8 +341,6 @@ if (Meteor.isClient) {
 
         if (!AmplifiedSession.equals('mode','submitter')) 
           Meteor.Router.to('/rooms/' + AmplifiedSession.get('room_id'));
-        
-        $('.success').append('<p class="successMessage">Success!</p>');
       });
       
     }
