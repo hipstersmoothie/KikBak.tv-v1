@@ -48,13 +48,35 @@ html, body, .container, .page, .currRoom {
     }
 }
 
+.addVideoPanel {
+    height: 100%;
+    overflow: scroll;
+
+    #results {
+        overflow: scroll;
+        height: 100%;  
+        padding-bottom: 100px;
+    }
+}
+
 .playlist-container {
     float: right;
     font-size: 15px;
-    color: white;  
+    color: white;
+    overflow: hidden;
+    height: 100%;  
+
+    #playlist {
+        overflow: scroll;
+        height: 100%;  
+        padding-bottom: 100px;
+    }
 }
 
 .currRoom {
+    width: 100%;
+    min-width: 100%;
+
     video {
         max-width: 100%;
         height: auto;
@@ -186,24 +208,6 @@ html, body, .container, .page, .currRoom {
     background-color: @green;
 }
 
-.Absolute-Center {
-  width: 80%;
-  height: 80%;
-  overflow: auto;
-  margin: 10%;
-  padding-left: 9%;
-  position: absolute;
-  top: 0; left: 0; bottom: 0; right: 0;
-}
-
-.Absolute-Center.is-Responsive {
-  width: 60%; 
-  height: 60%;
-  min-width: 200px;
-  max-width: 400px;
-  padding: 40px;
-}
-
 .about {
     background: linear-gradient(to bottom,#e1e1e1 0,#fff 30%,#fff 100%);
     background: -webkit-linear-gradient(top,#e1e1e1 0,#fff 30%,#fff 100%);
@@ -278,6 +282,16 @@ html, body, .container, .page, .currRoom {
     min-height: 310px;
     height: 100%;
 
+    .row {
+        margin: 0;
+    }
+
+    @media (max-width: 768px) { 
+        .playlist-container {
+            display: none;
+        }
+    }
+
     .roomid {
         color: white;
         float: right;
@@ -296,20 +310,25 @@ html, body, .container, .page, .currRoom {
 .page {
     padding: 20px 0px;
     min-height: 310px;
-    position: relative;
-
-    .thumbnail {
-        margin: 10px 20px 0px 20px;
-        min-height: 54px;
-    }           
+    position: relative;         
 }
 
 .create {
-    margin-top: 14%;
+    margin-top: 7%;
+    padding: 15px 0px;
     min-height: 400px;
 
-    fieldset {
-        padding: 20px 10%;
+    .addModule {
+        margin-top: 20px;
+        padding: 0px 5%;
+    }
+
+    a {
+        color: black;
+    }
+
+    .chooseSubmitMode {
+        margin-bottom: 20px;
     }
 }
 
@@ -359,6 +378,7 @@ legend {
     font-family: 'Lato', sans-serif;
     color: white;
 }
+
 
 .btn-home {
     -moz-box-shadow:inset 0px 0px 0px 0px #caefab;
@@ -416,30 +436,45 @@ legend {
     cursor: pointer;
 }
 
+.rooms {
+   margin: 40px 20px; 
+}
+
 .down {
   margin-top: 27px;
 }
 
 .btn-room {
-    -moz-box-shadow:inset 0px 0px 0px 0px #caefab;
-    -webkit-box-shadow:inset 0px 0px 0px 0px #caefab;
-    box-shadow:inset 0px 0px 0px 0px #caefab;
     display:inline-block;
+
     color: white;
     font-family:Lato;
     font-size:20px;
     font-weight:bold;
-    padding:13px 30px;
     text-decoration:none;
     text-shadow:1px 1px 0px darkgray;
-}.btn-room:active {
+
+    border-bottom:3px solid #4aa89f;
+    background-color:#88d8d0;
+    padding:10px;
+    color:#fff;
+    font-weight:600;
+    cursor:pointer;
     position:relative;
-    top:1px;
+}
+.btn-room:hover {
+    top:-5px;
+    margin-bottom: -5px;
+    border-bottom:0px solid #4aa89f
 }
 
 @media only screen and ( max-width : 767px) {
     .btn-home {
         display:block;
         margin: 0px 35px 10px 35px;
+    }
+
+    .toRoom {
+        padding-top: 50px;
     }
 }
