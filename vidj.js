@@ -22,16 +22,75 @@ if (Meteor.isServer) {
     return Videos.find({room_id: room_id});
   });
 
+  var urlIdCounter;
+  function S4() {
+    return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+  }
+
+  var generateUid = function () {  
+    return (S4() + S4() + delim + S4() + delim + S4() + delim + S4() + delim + S4() + S4() + S4());
+  };
+
+  var newId = function() {
+    var counter, urlId;
+    if (urlIdCounter === undefined) 
+      counter = 0;
+    else
+      counter = ++urlIdCounter;
+    console.log(urlIdCounter);
+
+    urlId = S4() + counter.toString();
+    return urlId;
+  };
+
+  var lastCreate;
+
+  Rooms.allow({    
+    'insert': function(userId, doc) { 
+      var date = new Date();   
+      if (lastCreate === undefined) {
+        lastCreate = date;
+        return true;
+      } else if (!(lastCreate.getHours() - date.getHours()) && Math.abs(lastCreate.getMinutes() - date.getMinutes()) < 5) {
+        return false;
+      }      
+      return true;
+    },
+
+    'update': function() {
+      return false;
+    },
+
+    'remove': function() {
+      return false;              
+    }           
+  });
+
+  Videos.allow({    
+    'insert': function(userId, doc) { 
+      return false;
+    },
+
+    'update': function() {
+      return true;
+    },
+
+    'remove': function() {
+      return false;              
+    }           
+  });
 
   Meteor.methods({
     create_room: function(roomName, private1) {
       console.log("CREATING ROOM");
-      var room_id = Rooms.insert({name: roomName, 
+      var urlId = newId();
+      var room_id = Rooms.insert({name: roomName,
+                                  urlId: urlId, 
                                   isPrivate: private1, 
                                   modified_on: new Date().getTime()});
-      return room_id;
+      return urlId;
     },
-    create_videos: function(room_id) {
+    create_videos: function(room_id, urlId) {
       console.log("CREATING VIDEOS FOR ROOM");
       var videos_id = Videos.insert({videos: [],
                      videoIds: [],
@@ -81,6 +140,8 @@ if (Meteor.isClient) {
     '/rooms/new/add': 'CreateARoom',
     '/rooms/find':'FindRoom',
     '/rooms/:id/addVideo' : function(id) {
+            console.log(id);
+
       AmplifiedSession.set("room_id", id);
       if(AmplifiedSession.get("room_id"))
         return 'AddVideoScreen';
@@ -91,6 +152,7 @@ if (Meteor.isClient) {
         return 'ChooseModeScreen';
     },
     '/rooms/:id' : function(id) {
+
       AmplifiedSession.set("room_id", id);
       AmplifiedSession.set('playing', false);
       if(AmplifiedSession.get("room_id"))
@@ -125,7 +187,7 @@ if (Meteor.isClient) {
   };
 
   Template.EnteredRoom.room = function () {
-    return Rooms.findOne(AmplifiedSession.get('room_id'));
+    return Rooms.findOne({urlId:AmplifiedSession.get('room_id')});
   };
 
   Template.EnteredRoom.adding = function () {
@@ -220,6 +282,7 @@ if (Meteor.isClient) {
     });
     request.execute(function(response) {
       var color;
+      $('#results').html('');
       for (var i = 0; i < response.result.items.length; i++) {
         var style = "";
         if (color) 
@@ -281,13 +344,13 @@ if (Meteor.isClient) {
   });
 
   Template.ChooseModeScreen.room = function () {
-    return Rooms.findOne(AmplifiedSession.get('room_id'));
+    return Rooms.findOne({urlId: AmplifiedSession.get('room_id')});
   };
 
   /////////////////// Add Video ///////////////////
 
   Template.AddVideoScreen.room = function () {
-    return Rooms.findOne(AmplifiedSession.get('room_id'));
+    return Rooms.findOne({urlId: AmplifiedSession.get('room_id')});
   };
 
   Template.AddVideoScreen.videoData = function() {
@@ -339,7 +402,7 @@ if (Meteor.isClient) {
       
       if(id) {
         vid_id = AmplifiedSession.get('videos_id') ? AmplifiedSession.get('videos_id') : Videos.findOne({room_id: AmplifiedSession.get('room_id')})._id;
-        Videos.update({ _id: vid_id}, {$inc:{totalVideos:1},
+        Videos.update({ room_id: AmplifiedSession.get('room_id')}, {$inc:{totalVideos:1},
                                       $push:{videoIds: id},
                                       $set:{modified_on: time}}, function (error) {
           if (error) 
@@ -401,7 +464,7 @@ if (Meteor.isClient) {
   Template.FindRoom.events({
     'click .goToRoom' : function () {
       var room_id = $('#privateId').val();
-      if(Rooms.findOne(room_id))
+      if(Rooms.findOne({urlId: room_id}))
         Meteor.Router.to('/rooms/' + room_id + '/mode');
       else 
         $('#error').show();

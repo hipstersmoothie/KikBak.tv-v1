@@ -5,7 +5,6 @@
 
 preserve-inputs
 less
-insecure
 standard-app-packages
 HTML5-History-API
 npm

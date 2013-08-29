@@ -103,7 +103,7 @@
   {{else}}
     <div class="page row text-center rooms">
       {{#each rooms}}
-        <a href="/rooms/{{_id}}/mode" class="btn-room col-sm-3 col-xs-12" style="text-align: center;">
+        <a href="/rooms/{{urlId}}/mode" class="btn-room col-sm-3 col-xs-12" style="text-align: center;">
           {{name}}
         </a>
       {{/each}}
@@ -191,7 +191,7 @@
               {{/isolate}}
         </fieldset>
         <div class="text-center toRoom">
-          <a href="/rooms/{{room._id}}">To Room -></a>
+          <a href="/rooms/{{room.urlId}}">To Room -></a>
         </div>
       </form>
     </div>
@@ -215,12 +215,12 @@
             {{/if}}
           {{/constant}}
           {{#isolate}}
-              <div class="playlist-container col-xs-12 col-sm-2">
+              <div class="playlist-container col-sm-2">
                 <div class="row">
                   <legend class="col-sm-8 down">{{room.name}}</legend>
                   <div class="col-sm-2 "><a id="toFullscreen"><h5 class="plus">F</h5></a></div>
                   <div class="col-sm-2"><a id="toAddVideo"><h5 class="plus">+</h5></a></div>
-                  <h5 class="roomid">Room ID: {{room._id}}</h5>
+                  <h5 class="roomid">Room ID: {{room.urlId}}</h5>
                 </div>
                 {{#if adding}}
                 <div id="playlist">
@@ -255,8 +255,8 @@
   <div class="row-fluid">
     <div class="alpha60 text-center">
       <legend>Choose Mode</legend>
-      <a href="/rooms/{{room._id}}" class="theater mode thumbnail btn-room btn-sm blue-bg" style="text-align: center;margin:25px 30%;">Theater</a>
-      <a href="/rooms/{{room._id}}/addVideo" class="submitter mode thumbnail btn-room btn-sm purp-bg" style="text-align: center;margin:25px 30%;">Submitter View</a>
+      <a href="/rooms/{{room.urlId}}" class="theater mode thumbnail btn-room btn-sm blue-bg" style="text-align: center;margin:25px 30%;">Theater</a>
+      <a href="/rooms/{{room.urlId}}/addVideo" class="submitter mode thumbnail btn-room btn-sm purp-bg" style="text-align: center;margin:25px 30%;">Submitter View</a>
     </div>
   </div>
 </template>
