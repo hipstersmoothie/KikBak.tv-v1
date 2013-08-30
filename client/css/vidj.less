@@ -214,11 +214,14 @@ html, body, .container, .page, .currRoom {
     background: -o-linear-gradient(top,#e1e1e1 0,#fff 30%,#fff 100%);
     background: -moz-linear-gradient(top,#e1e1e1 0,#fff 30%,#fff 100%);
     background: -ms-linear-gradient(top,#e1e1e1 0,#fff 30%,#fff 100%);
-    padding: 20px 30px;
     height: 100%;
 
+    .aboutContent {
+        padding: 20px 30px;
+    }
+
     .what {
-        margin: 20px 40%;
+        margin: 20px 36%;
         border-bottom: 5px solid;
         border-top: 5px solid;
         padding: 5px;
@@ -234,18 +237,55 @@ html, body, .container, .page, .currRoom {
     .pod {
         padding: 4% 2.5%;
     }
+
+    @media only screen and ( max-width : 813px) {
+        .what {
+            margin:20px 32%;
+        }
+    }
+    @media only screen and ( max-width : 666px) {
+        .what {
+            margin:20px 17%;
+        }
+    }
+}
+
+img.bg {
+  /* Set rules to fill background */
+  min-height: 100%;
+  min-width: 1024px;
+    
+  /* Set up proportionate scaling */
+  width: 100%;
+  height: auto;
+    
+  /* Set up positioning */
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+@media screen and (max-width: 1024px) { /* Specific to this particular image */
+  img.bg {
+    left: 50%;
+    margin-left: -512px;   /* 50% */
+  }
 }
 
 .homepage {
     padding-top: 11%;
     position:relative;
-    padding-bottom: 18%;
-    background: url(/img/bg.jpg) no-repeat center center fixed; 
+    /*background: url(/img/bg.jpg) no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
-    background-size: cover;
+    background-size: cover;*/
     width: 100%;
+
+    .down {
+        height: 75px;
+        margin-top: 6%;
+    }
 
     .home-hero .btn {
         font-family: 'Lato', sans-serif;
@@ -330,7 +370,6 @@ html, body, .container, .page, .currRoom {
 }
 
 .create {
-    margin-top: 7%;
     padding: 15px 0px;
     min-height: 400px;
 
@@ -346,6 +385,39 @@ html, body, .container, .page, .currRoom {
     .chooseSubmitMode {
         margin-bottom: 20px;
     }
+
+    .Absolute-Center {
+        display: block !important;
+        min-width: 20%;
+        max-width: 90%;
+        min-height: 260px;
+        max-height: 80%;
+        resize: both;
+
+        height: 50%;
+        width: 50%;
+        overflow: auto;
+        margin: auto;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+
+        background-color: #222222;
+        padding: 50px 30px;
+    }
+
+    @media (max-width: 1086px) {
+      .Absolute-Center {
+        width: 80%;
+      }
+    }
+
+    .check {
+        padding-left: 30px;
+        padding-top: 15px;
+    }
 }
 
 .successMessage {
@@ -354,7 +426,9 @@ html, body, .container, .page, .currRoom {
     padding-left: 50px;
 }
 
-
+.texta {
+    padding: 60px 0px;
+}
 
 #brand {
     color: white;
@@ -458,6 +532,7 @@ legend {
 
 .down {
   margin-top: 27px;
+  cursor: pointer;
 }
 
 .btn-room {

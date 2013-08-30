@@ -67,6 +67,15 @@ Meteor.Router.add({
 });
 
 /////////////////// Entered Room ///////////////////
+Template.Home.events({
+  'click .down' : function() {
+    $('html, body').animate({
+      scrollTop: $(".about").offset().top
+    }, 1000);
+  }
+});
+
+/////////////////// Entered Room ///////////////////
 Template.EnteredRoom.loading = function () {
   return videosHandle && !videosHandle.ready();
 };
