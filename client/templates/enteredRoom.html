@@ -4,16 +4,18 @@
       <div id="entered" style="font-size:30px;color:white">Loading...</div>
     {{else}}
       <div class="alpha60 currRoom row">
-          {{#constant}}
+          
             {{#if video_objs}}
+              {{#constant}}
               <div class="video-container col-xs-12 col-sm-10" id="video-container">
                 <div id='youtube-video'></div>
                 <div class="error" style="font-size:30px;color:white;display:none;">No Videos :( Try adding one!</div>
               </div>
+              {{/constant}}
             {{else}}
             <div class="col-xs-12 col-sm-10 video-container" style="font-size:30px;color:white;">No Videos :( Try adding one!</div>
             {{/if}}
-          {{/constant}}
+          
           {{#isolate}}
               <div class="playlist-container col-sm-2">
                 <div class="row">
