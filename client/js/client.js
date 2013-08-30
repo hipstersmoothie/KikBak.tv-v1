@@ -16,6 +16,7 @@ Meteor.startup(function () {
   AmplifiedSession.set('videos', null);
   AmplifiedSession.set('videos_id', null);
   AmplifiedSession.set('playing', false);
+  // switch between adding view and playlist
   AmplifiedSession.set('adding', false);
   // addvideopage switch add method
   AmplifiedSession.set('linkGrabber', false);
@@ -111,6 +112,7 @@ Template.EnteredRoom.videoData = function() {
 var video= {};
 
 var renderVid = function(playlist, currVid) {
+  AmplifiedSession.set('currentVideoIndex', currVid);
   video = Popcorn.smart('#youtube-video', 'http://www.youtube.com/embed/' + playlist[currVid] + '&html5=1');
   var tmp = $('#playlist')[0].firstChild;
   video.on("ended", function() {
@@ -194,7 +196,21 @@ Template.EnteredRoom.events({
   'click #toFullscreen' : function() {
     var target = $('.currRoom')[0];
     if (screenfull.enabled) 
-      screenfull.request(target);
+      screenfull.toggle(target);
+  },
+  'click #previous' : function() {
+    if (AmplifiedSession.get('currentVideoIndex') > 0) {
+      video.destroy();
+      var playlist = AmplifiedSession.get('videos').videoIds;
+      renderVid(playlist, AmplifiedSession.get('currentVideoIndex') - 1);
+    }
+  },
+  'click #nextVideo' : function() {
+    if (AmplifiedSession.get('currentVideoIndex') < AmplifiedSession.get('videos').videoIds.length) {
+      video.destroy();
+      var playlist = AmplifiedSession.get('videos').videoIds;
+      renderVid(playlist, AmplifiedSession.get('currentVideoIndex') + 1);
+    }
   }
 });
 

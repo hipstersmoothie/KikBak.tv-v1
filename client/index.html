@@ -2,6 +2,7 @@
   <title>Kikbak.tv</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://apis.google.com/js/client.js?onload=OnLoadCallback"></script>
+  <link href=' http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
@@ -15,9 +16,9 @@
         <a id"brand" class="navbar-brand" href="/" style="color:white;">Kikbak.tv</a>
         <div class="nav-collapse collapse navbar-responsive-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="/rooms"><span class="purp">Browse</span> Rooms</a></li>
-                <li><a href="/rooms/find"><i class="icon-edit icon-white"></i><span class="blue">Find</span> a Private Room</a></li>
-                <li><a href="/rooms/new/add"><i class="icon-edit icon-white"></i><span class="green">Create</span> a Room</a></li>
+                <li><a href="/rooms"><span class="purp">Browse</span></a></li>
+                <li><a href="/rooms/find"><i class="icon-edit icon-white"></i><span class="blue">Find</span> Private Theater</a></li>
+                <li><a href="/rooms/new/add"><i class="icon-edit icon-white"></i><span class="green">Create</span></a></li>
             </ul>
             <ul class="nav navbar-nav pull-right">
                 <li class="about-menu"><a href="/about">About</a></li>
@@ -27,6 +28,6 @@
   </div>
 
   <div class="container wrapper primary">
-    {{renderPage}}
+      {{renderPage}}
   </div> 
 </body>
