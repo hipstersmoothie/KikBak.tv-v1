@@ -1,0 +1,13 @@
+<template name="BrowseRooms">
+  {{#if loading}}
+    <div id="rooms">Loading...</div>
+  {{else}}
+    <div class="page row text-center rooms">
+      {{#each rooms}}
+        <a href="/rooms/{{urlId}}/mode" class="btn-room col-sm-3 col-xs-12" style="text-align: center;">
+          {{name}}
+        </a>
+      {{/each}}
+    </div>
+  {{/if}}
+</template>

@@ -1,0 +1,22 @@
+<template name="FindRoom">
+  <div class="row-fluid">
+    <div class="alpha60 create">
+        <form class="form-horizontal">
+          <fieldset>
+            <legend>Find a Private Room</legend>
+            <div id="error">No Room with that ID</div>
+            <div class="form-group">
+              <label for="privateId" class="control-label col-sm-2">Room Id:</label>
+              <div class="col-sm-10">
+                <input type="text" id="privateId" class="form-control" name="privateId" placeholder="eg(Kickback Supreme)"/>
+              </div>
+            </div>
+            <div class="form-actions col-sm-offset-2 col-sm-10">
+              <input type="submit" value="Go!" onclick="return false;" class="btn btn-primary goToRoom" />
+              <a href="javascript:history.back(-1);" class="btn delete">Cancel</a>
+            </div>
+          </fieldset>
+        </form>
+    </div>
+  </div>
+</template>

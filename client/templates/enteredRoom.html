@@ -1,0 +1,52 @@
+<template name="EnteredRoom">
+  <div class="videoPage">
+    {{#if loading}}
+      <div id="entered" style="font-size:30px;color:white">Loading...</div>
+    {{else}}
+      <div class="alpha60 currRoom row">
+          {{#constant}}
+            {{#if video_objs}}
+              <div class="video-container col-xs-12 col-sm-10" id="video-container">
+                <div id='youtube-video'></div>
+                <div class="error" style="font-size:30px;color:white;display:none;">No Videos :( Try adding one!</div>
+              </div>
+            {{else}}
+            <div class="col-xs-12 col-sm-10 video-container" style="font-size:30px;color:white;">No Videos :( Try adding one!</div>
+            {{/if}}
+          {{/constant}}
+          {{#isolate}}
+              <div class="playlist-container col-sm-2">
+                <div class="row">
+                  <legend class="col-sm-8 down">{{room.name}}</legend>
+                  <div class="col-sm-2 "><a id="toFullscreen"><h5 class="plus">F</h5></a></div>
+                  <div class="col-sm-2"><a id="toAddVideo"><h5 class="plus">+</h5></a></div>
+                  <h5 class="roomid">Room ID: {{room.urlId}}</h5>
+                </div>
+                {{#if adding}}
+                <div id="playlist">
+                </div>
+                {{else}}
+                <div class="addVideoPanel">
+                  <form class="form-horizontal">
+                      <h5>Add a Video</h5>
+                      <div class="input-group">
+                        <input type="text" class="form-control" id="searchTerms">
+                        <span class="input-group-btn">
+                          <input type="submit" value="Search!" onclick="return false;" class="btn btn-default searchYoutube" />
+                        </span>
+                      </div>
+                      <div id="results"></div>
+                      <div class="form-actions col-sm-offset-2 col-sm-10">
+                        <a class="btn delete">Cancel</a>
+                      </div>
+                  </form>
+                </div>
+                {{/if}}
+                {{#each videoData}}
+                {{/each}}
+              </div>
+          {{/isolate}}
+      <div>
+    {{/if}}
+  </div>
+</template>

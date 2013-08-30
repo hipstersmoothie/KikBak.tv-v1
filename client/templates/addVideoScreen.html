@@ -1,0 +1,63 @@
+<template name="AddVideoScreen">
+  <div class="row-fluid">
+    <div class="alpha60 create">
+      <form class="form-horizontal row">
+        <div class="text-center col-sm-5 text-center">
+          <h2>Current Playlist:</h2>
+          <div id="playlist">
+            {{#if videoData}}
+              {{videoData}}
+            {{else}}
+              <p>No videos, try adding one!</p>
+            {{/if}} 
+          </div>
+        </div>
+
+        <fieldset class="addModule col-sm-6">
+            <legend>Add a Video</legend>
+            <div class="chooseSubmitMode text-center">
+              <a class="plain searchMedia btn btn-md blue-bg">Search</a>
+              <a class="plain grabLinks btn btn-md blue-bg">Link Grabber</a>
+            </div>
+            {{#isolate}}
+              {{#if linkGrabber}}
+                <!-- <div class="col-sm-2">
+                  <label class="control-label medaiLabel">Media Type:</label>
+                </div>
+                <div class="col-sm-10 mediaInput">
+                  <select class="form-control">
+                    <option>Soundcloud</option>
+                    <option>Vimeo</option>
+                    <option>YouTube</option>
+                  </select>
+                </div> -->
+                <div class="form-group row">
+                    <label for="url" class="control-label col-sm-2">URL:</label>
+                    <div class="col-sm-10">
+                        <input type="text" id="url" class="form-control" name="url" placeholder="example(http://youtu.be/oEXyTJj6MM0)..."/>
+                    </div>
+                </div>
+                <div class="form-actions col-sm-offset-2 col-sm-10">
+                    <input type="submit" value="Add!" onclick="return false;" class="btn btn-primary addVideo" />
+                </div>
+                <div class="success"></div>
+              {{else}}
+                <form class="form-horizontal">
+                  <div class="input-group">
+                    <input type="text" class="form-control" id="searchTerms">
+                    <span class="input-group-btn">
+                      <input type="submit" value="Search!" onclick="return false;" class="btn btn-default searchYoutube" />
+                    </span>
+                  </div>
+                  <div id="results"></div>
+                </form>
+              {{/if}}
+              {{/isolate}}
+        </fieldset>
+        <div class="text-center toRoom">
+          <a href="/rooms/{{room.urlId}}">To Room -></a>
+        </div>
+      </form>
+    </div>
+  </div>
+</template>
