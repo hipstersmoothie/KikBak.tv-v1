@@ -2,12 +2,12 @@
   {{#if loading}}
     <div id="rooms">Loading...</div>
   {{else}}
-    <div class="page row text-center rooms">
+    <div class="page row text-center rooms" style="max-width: 100%;">
       <div class="rooms-container">
         <h2>Public Rooms:</h2>
         <div class="buttons">
           {{#each rooms}}
-            <a href="/rooms/{{urlId}}/mode" class="btn-room col-md-2 col-sm-5 col-sm-offset-1 col-xs-12" style="text-align: center;">
+            <a href="/rooms/{{urlId}}/mode" class="btn btn-sm btn-home btn-room col-md-2 col-sm-5 col-sm-offset-1 col-xs-12" style="text-align: center;font-size:25px;">
               {{name}}
             </a>
           {{/each}}

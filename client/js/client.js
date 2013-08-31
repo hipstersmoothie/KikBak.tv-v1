@@ -150,7 +150,7 @@ var searchVids = function() {
     for (var i = 0; i < response.result.items.length; i++) {
       var style = color ? "blue" : "purp";
       color = !color;
-      $('#results').append('<div class="choose"><span class="future col-lg-12 ' + style + '">' + response.result.items[i].snippet.title + 'from </br>' + response.result.items[i].snippet.channelTitle + '<span class="hidden vId">' + response.result.items[i].id.videoId + '</span></span></div>');
+      $('#results').append('<div class="choose row"><img style="padding:0px;" class="col-xs-3" src="http://img.youtube.com/vi/' + response.result.items[i].id.videoId +'/0.jpg" /><span class="future col-xs-9 ' + style + '">' + response.result.items[i].snippet.title + 'from </br>' + response.result.items[i].snippet.channelTitle + '<span class="hidden vId">' + response.result.items[i].id.videoId + '</span></span></div>');
     };
   });
 };

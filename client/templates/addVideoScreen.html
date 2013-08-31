@@ -1,7 +1,7 @@
 <template name="AddVideoScreen">
   <div class="row-fluid">
-    <div class="alpha60 create">
-      <form class="form-horizontal row">
+    <div class="create">
+      <div class="form-horizontal row Absolute-Center-Add">
         <div class="text-center col-sm-5 text-center">
           <h2>Current Playlist:</h2>
           <div id="playlist">
@@ -42,7 +42,7 @@
                 </div>
                 <div class="success"></div>
               {{else}}
-                <form class="form-horizontal">
+                <form class="form-horizontal" style="height:100%;">
                   <div class="input-group">
                     <input type="text" class="form-control" id="searchTerms">
                     <span class="input-group-btn">
@@ -57,7 +57,7 @@
         <div class="text-center toRoom">
           <a href="/rooms/{{room.urlId}}">To Room -></a>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 </template>
