@@ -2,12 +2,12 @@ Rooms = new Meteor.Collection("rooms");
 Videos = new Meteor.Collection("videosQue");
 
 var AmplifiedSession = _.extend({}, Session, {
-  keys: _.object(_.map(amplify.store(), function (value, key) {
+  keys: _.object(_.map(amplify.store.localStorage(), function (value, key) {
     return [key, JSON.stringify(value)];
   })),
   set: function (key, value) {
     Session.set.apply(this, arguments);
-    amplify.store(key, value);
+    localStorage.setItem(key, value);
   }
 });
 
@@ -74,6 +74,13 @@ Template.Home.events({
     }, 1000);
   }
 });
+
+Template.Home.local = function() {
+  if (AmplifiedSession.get('room_id'))
+    return AmplifiedSession.get('room_id');
+  else
+    return '';
+};
 
 /////////////////// Entered Room ///////////////////
 Template.EnteredRoom.loading = function () {

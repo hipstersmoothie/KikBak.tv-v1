@@ -9,6 +9,11 @@
     src: url('Lato-Reg.ttf'); 
 } 
 
+.container {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
 @font-face { 
     font-family: Lato; 
     font-weight: bold; 
@@ -441,13 +446,11 @@ img.bg {
     .Absolute-Center-Add {
         display: block !important;
         min-width: 20%;
-        max-width: 90%;
         min-height: 315px;
-        max-height: 90%;
         resize: both;
 
-        height: 85%;
-        width: 90%;
+        height: 100%;
+        width: 100%;
         margin: auto;
         position: absolute;
         top: 0;
@@ -458,6 +461,7 @@ img.bg {
         background-color: #222222;
         padding: 5px 30px;
         overflow: hidden;
+        padding-top: 8%;
 
         h2 {
             color: white;
@@ -467,6 +471,12 @@ img.bg {
     @media (max-width: 1086px) {
       .Absolute-Center {
         width: 80%;
+        overflow: scroll;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .Absolute-Center-Add {
         overflow: scroll;
       }
     }
@@ -585,6 +595,7 @@ legend {
 
 .rooms {
     padding: 7% 5%;
+    margin: 0px;
 
     h2 {
         color: white;
