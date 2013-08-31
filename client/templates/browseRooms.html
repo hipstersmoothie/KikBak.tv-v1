@@ -3,11 +3,16 @@
     <div id="rooms">Loading...</div>
   {{else}}
     <div class="page row text-center rooms">
-      {{#each rooms}}
-        <a href="/rooms/{{urlId}}/mode" class="btn-room col-sm-3 col-xs-12" style="text-align: center;">
-          {{name}}
-        </a>
-      {{/each}}
+      <div class="rooms-container">
+        <h2>Public Rooms:</h2>
+        <div class="buttons">
+          {{#each rooms}}
+            <a href="/rooms/{{urlId}}/mode" class="btn-room col-md-2 col-sm-5 col-sm-offset-1 col-xs-12" style="text-align: center;">
+              {{name}}
+            </a>
+          {{/each}}
+        </div>
+      </div>
     </div>
   {{/if}}
 </template>

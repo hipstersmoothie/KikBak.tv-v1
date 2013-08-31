@@ -378,8 +378,16 @@ img.bg {
         padding: 0px 5%;
     }
 
+    .borderG {
+        border-left: 10px solid @green; 
+    }
+
+    .borderB {
+        border-left: 10px solid @blue; 
+    }
+
     a {
-        color: black;
+        color: white;
     }
 
     .chooseSubmitMode {
@@ -390,13 +398,12 @@ img.bg {
         display: block !important;
         min-width: 20%;
         max-width: 90%;
-        min-height: 260px;
+        min-height: 315px;
         max-height: 80%;
         resize: both;
 
         height: 50%;
         width: 50%;
-        overflow: auto;
         margin: auto;
         position: absolute;
         top: 0;
@@ -527,8 +534,27 @@ legend {
 }
 
 .rooms {
-   margin: 40px 20px; 
+    padding: 10% 5%;
+
+    h2 {
+        color: white;
+    }
+    
+    .rooms-container {
+        padding: 0px 5%;
+        background-color: #222222;
+        min-height: 80%; 
+        border-left: 10px solid @purple;  
+    }
+
+    @media (min-width: 767px) {
+      .buttons {
+        margin-left: -60px;
+      }
+    }
 }
+
+
 
 .down {
   margin-top: 27px;
@@ -552,12 +578,14 @@ legend {
     font-weight:600;
     cursor:pointer;
     position:relative;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
-.btn-room:hover {
+/*.btn-room:hover {
     top:-5px;
     margin-bottom: -5px;
     border-bottom:0px solid #4aa89f
-}
+}*/
 
 @media only screen and ( max-width : 767px) {
     .btn-home {
