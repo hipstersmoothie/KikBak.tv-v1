@@ -4,7 +4,6 @@
       <div id="entered" style="font-size:30px;color:white">Loading...</div>
     {{else}}
       <div class="alpha60 currRoom row">
-          
             {{#if video_objs}}
               {{#constant}}
               <div class="video-container col-xs-12 col-sm-10" id="video-container">
@@ -46,7 +45,7 @@
                 {{/if}}
                 {{#each videoData}}
                 {{/each}}
-                <div>
+                <div class="controls">
                   <div class="col-sm-6 "><a id="previous"><h5 class="plus"><</h5></a></div>
                   <div class="col-sm-6 "><a id="nextVideo"><h5 class="plus">></h5></a></div>
                 </div>

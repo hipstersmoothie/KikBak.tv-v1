@@ -48,6 +48,10 @@
   }
 }
 
+body {
+    overflow-x: hidden;
+}
+
 html, body, .container, .page, .currRoom {
     & {
         height: 100%;
@@ -72,11 +76,25 @@ html, body, .container, .page, .currRoom {
     font-size: 15px;
     color: white;
     overflow: hidden;
-    height: 100%;  
+    height: 100%; 
 
     #playlist {
         overflow: scroll;
-        height: 79%;  
+        height: 75%;  
+
+        .future {
+
+        }
+    }
+
+    .controls {
+        padding-left: 11%;
+    }
+
+    @media (min-width: 767px) {
+        .container {
+            overflow: auto;    
+        }
     }
 }
 
@@ -152,7 +170,8 @@ html, body, .container, .page, .currRoom {
 }
 
 .navbar {
-    padding-left: 50px;    
+    padding-left: 50px;  
+    width: 100%;  
 }
 
 @media only screen and ( max-width : 767px) {
@@ -392,8 +411,24 @@ img.bg {
             overflow-x: hidden;
             padding-bottom: 160px;
 
-            .choose {
+           .choose {
                 padding-left: 15px;
+                background: linear-gradient(to bottom,#e1e1e1 0,#fff 30%,#fff 100%);
+    background: -webkit-linear-gradient(top,#e1e1e1 0,#fff 30%,#fff 100%);
+    background: -webkit-gradient(linear,left top,left bottom,color-stop(0,#e1e1e1),color-stop(0.3,#fff),color-stop(1,#fff));
+    background: -o-linear-gradient(top,#e1e1e1 0,#fff 30%,#fff 100%);
+    background: -moz-linear-gradient(top,#e1e1e1 0,#fff 30%,#fff 100%);
+    background: -ms-linear-gradient(top,#e1e1e1 0,#fff 30%,#fff 100%);
+
+                .future {
+                    padding-top: 5%;
+                }
+
+                @media screen and (max-width: 525px) {
+                    .future {
+                        padding-top: 0px;
+                    }
+                }
             }
         }
     }
