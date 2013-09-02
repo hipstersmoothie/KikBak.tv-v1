@@ -69,33 +69,8 @@ html, body, .container, .page, .currRoom {
     }
 }
 
-
-
-.playlist-container {
-    float: right;
-    font-size: 15px;
-    color: white;
+.noscroll {
     overflow: hidden;
-    height: 100%; 
-
-    #playlist {
-        overflow: scroll;
-        height: 75%;  
-
-        .future {
-
-        }
-    }
-
-    .controls {
-        padding-left: 11%;
-    }
-
-    @media (min-width: 767px) {
-        .container {
-            overflow: auto;    
-        }
-    }
 }
 
 .currRoom {
@@ -365,6 +340,33 @@ img.bg {
     min-height: 310px;
     height: 100%;
 
+    .playlist-container {
+        float: right;
+        font-size: 15px;
+        color: white;
+        overflow: hidden;
+        height: 100%; 
+
+        #playlist {
+            overflow: scroll;
+            height: 75%;  
+
+            .future {
+
+            }
+        }
+
+        .controls {
+            padding-left: 11%;
+        }
+
+        @media (min-width: 767px) {
+            .container {
+                overflow: auto;    
+            }
+        }
+    }
+
     .row {
         margin: 0;
     }
@@ -400,25 +402,28 @@ img.bg {
     padding: 15px 0px;
     min-height: 400px;
 
+    @media screen and (min-width: 768px) {
+        .addModule {
+            height: 100%;
+        }
+    }
     .addModule {
         margin-top: 20px;
         padding: 0px 5%;
-        height: 100%;
 
         #results {
             height: 100%;
             overflow-y: scroll;
             overflow-x: hidden;
-            padding-bottom: 160px;
 
            .choose {
                 padding-left: 15px;
                 background: linear-gradient(to bottom,#e1e1e1 0,#fff 30%,#fff 100%);
-    background: -webkit-linear-gradient(top,#e1e1e1 0,#fff 30%,#fff 100%);
-    background: -webkit-gradient(linear,left top,left bottom,color-stop(0,#e1e1e1),color-stop(0.3,#fff),color-stop(1,#fff));
-    background: -o-linear-gradient(top,#e1e1e1 0,#fff 30%,#fff 100%);
-    background: -moz-linear-gradient(top,#e1e1e1 0,#fff 30%,#fff 100%);
-    background: -ms-linear-gradient(top,#e1e1e1 0,#fff 30%,#fff 100%);
+                background: -webkit-linear-gradient(top,#e1e1e1 0,#fff 30%,#fff 100%);
+                background: -webkit-gradient(linear,left top,left bottom,color-stop(0,#e1e1e1),color-stop(0.3,#fff),color-stop(1,#fff));
+                background: -o-linear-gradient(top,#e1e1e1 0,#fff 30%,#fff 100%);
+                background: -moz-linear-gradient(top,#e1e1e1 0,#fff 30%,#fff 100%);
+                background: -ms-linear-gradient(top,#e1e1e1 0,#fff 30%,#fff 100%);
 
                 .future {
                     padding-top: 5%;
@@ -432,6 +437,7 @@ img.bg {
             }
         }
     }
+
 
     .borderG {
         border-left: 10px solid @green; 
@@ -500,6 +506,20 @@ img.bg {
 
         h2 {
             color: white;
+        }
+
+        .playlist-container {
+            height: 100%;
+            #playlist {
+                overflow-y: scroll;
+                height: 90%;
+            }
+        }
+
+        @media screen and (max-width: 767px) {
+            .playlist-container {
+                height:50%;
+            }
         }
     }
 
