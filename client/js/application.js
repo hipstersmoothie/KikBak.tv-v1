@@ -110,6 +110,10 @@ var searchVids = function() {
         color = !color;
         $('#results').append('<div class="choose row" id="' + response.result.items[i].id.videoId + '"><img style="padding:0px;" class="col-xs-3" src="http://img.youtube.com/vi/' + response.result.items[i].id.videoId +'/0.jpg" /><span class="future col-xs-9 ' + style + '">' + response.result.items[i].snippet.title + '</br>from ' + response.result.items[i].snippet.channelTitle + '<span class="hidden vId">' + response.result.items[i].id.videoId + '</span></span></div>');
       };
+      $("#results").mCustomScrollbar({
+        theme:"light",
+        scrollInertia:0
+      });
     });
   });
 }
@@ -132,6 +136,9 @@ var getPlaylist = function() {
         $('#playlist').append('<div class="next"><span class="future col-lg-12 ' + style + '">' + response.items[i].snippet.title + '<span class="hidden vId">' + i + '</span></span></div>');
       }
       $('#playlist').scrollTop($('#playlist')[0].scrollHeight);
+      $("#playlist").mCustomScrollbar({
+          theme:"light"
+      });
     });
   });
 };

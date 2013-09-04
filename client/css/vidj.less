@@ -4,6 +4,14 @@
 @purple: #D67AB6;
 @green: #BBD982;
 
+
+@media screen and (-webkit-min-device-pixel-ratio:0) { 
+    select:focus, textarea:focus, input:focus {
+        font-size: 16px;
+        background:#eee; 
+    }
+}
+
 @font-face { 
     font-family: Lato; 
     src: url('Lato-Reg.ttf'); 
@@ -60,10 +68,8 @@ html, body, .container, .page, .currRoom {
 
 .addVideoPanel {
     height: 100%;
-    overflow: scroll;
 
     #results {
-        overflow: scroll;
         height: 100%;  
         padding-bottom: 100px;
     }
@@ -190,7 +196,14 @@ html, body, .container, .page, .currRoom {
 
 .blue-bg {
     background-color: @blue;
-    margin: 0px 5%;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+@media screen and (max-width:400px) {
+    .blue-bg {
+        margin-top: 3%;
+    }
 }
 
 .purp {
@@ -408,16 +421,15 @@ img.bg {
         }
     }
     .addModule {
-        margin-top: 20px;
+        margin-top: 60px;
         padding: 0px 5%;
 
         #results {
             height: 100%;
-            overflow-y: scroll;
-            overflow-x: hidden;
+            
 
            .choose {
-                padding-left: 15px;
+                margin: 0px;
                 background: linear-gradient(to bottom,#e1e1e1 0,#fff 30%,#fff 100%);
                 background: -webkit-linear-gradient(top,#e1e1e1 0,#fff 30%,#fff 100%);
                 background: -webkit-gradient(linear,left top,left bottom,color-stop(0,#e1e1e1),color-stop(0.3,#fff),color-stop(1,#fff));
@@ -434,6 +446,12 @@ img.bg {
                         padding-top: 0px;
                     }
                 }
+            }
+        }
+        @media (min-width: 767px) {
+            #results {
+                overflow-y: scroll;
+                overflow-x: hidden;
             }
         }
     }
@@ -502,7 +520,7 @@ img.bg {
         background-color: #222222;
         padding: 5px 30px;
         overflow: hidden;
-        padding-top: 8%;
+        padding-top: 5%;
 
         h2 {
             color: white;
@@ -511,7 +529,6 @@ img.bg {
         .playlist-container {
             height: 100%;
             #playlist {
-                overflow-y: scroll;
                 height: 90%;
             }
         }
@@ -526,11 +543,16 @@ img.bg {
     @media (max-width: 1086px) {
       .Absolute-Center {
         width: 80%;
-        overflow: scroll;
       }
     }
 
-    @media (max-width: 767px) {
+    @media screen and (max-width: 900px) {
+      .Absolute-Center-Add {
+        padding-top:8%;
+      }
+    }
+
+    @media screen and (max-width: 767px) {
       .Absolute-Center-Add {
         overflow: scroll;
       }

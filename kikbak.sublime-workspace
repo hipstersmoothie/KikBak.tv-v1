@@ -4,8 +4,56 @@
 		"selected_items":
 		[
 			[
+				"set",
+				"setState"
+			],
+			[
+				"stat",
+				"state"
+			],
+			[
+				"rou",
+				"Router"
+			],
+			[
+				"get",
+				"getTime"
+			],
+			[
 				"f",
-				"false"
+				"function"
+			],
+			[
+				"loc",
+				"localStorage"
+			],
+			[
+				"lo",
+				"localStorage"
+			],
+			[
+				"cur",
+				"currentVideoIndex"
+			],
+			[
+				"r",
+				"rooms"
+			],
+			[
+				"B",
+				"BrowseRooms"
+			],
+			[
+				"ev",
+				"events"
+			],
+			[
+				"vid",
+				"vid_id"
+			],
+			[
+				"A",
+				"AmplifiedSession"
 			],
 			[
 				"g",
@@ -84,10 +132,6 @@
 				"adding"
 			],
 			[
-				"cur",
-				"currentVideo"
-			],
-			[
 				"if",
 				"iFrequency"
 			],
@@ -116,23 +160,11 @@
 				"pubId"
 			],
 			[
-				"A",
-				"AmplifiedSession"
-			],
-			[
 				"C",
 				"ChooseModeScreen"
 			],
 			[
-				"r",
-				"return"
-			],
-			[
 				"vi",
-				"videoData"
-			],
-			[
-				"vid",
 				"videoData"
 			],
 			[
@@ -232,10 +264,6 @@
 				"console"
 			],
 			[
-				"lo",
-				"log"
-			],
-			[
 				"fin",
 				"findOne"
 			],
@@ -319,6 +347,14 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "client/js/application.js",
+			"settings":
+			{
+				"buffer_size": 8422,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -360,20 +396,30 @@
 	},
 	"file_history":
 	[
-		"/Users/alisowski/vidj/client/js/client.js",
+		"/Users/alisowski/vidj/client/css/vidj.less",
+		"/Users/alisowski/vidj/client/templates/scroll.js",
+		"/Users/alisowski/vidj/client/templates/findRoom.html",
+		"/Users/alisowski/vidj/client/templates/createARoom.html",
+		"/Users/alisowski/vidj/client/templates/addVideoScreen.html",
+		"/Users/alisowski/vidj/client/templates/browseRooms.html",
+		"/Users/alisowski/vidj/client/templates/chooseModeScreen.html",
+		"/Users/alisowski/vidj/client/templates/home.html",
+		"/Users/alisowski/vidj/client/js/createARoom.js",
+		"/Users/alisowski/vidj/client/js/chooseModeScreen.js",
+		"/Users/alisowski/vidj/client/js/routing.js",
+		"/Users/alisowski/vidj/client/templates/enteredRoom.html",
+		"/Users/alisowski/vidj/client/index.html",
+		"/Users/alisowski/vidj/client/js/browseRooms.js",
 		"/Users/alisowski/vidj/server/server.js",
+		"/Users/alisowski/vidj/client/js/client.js",
+		"/Users/alisowski/vidj/client/lib/helpers/shared.js",
+		"/Users/alisowski/vidj/client/js/findRoom.js",
+		"/Users/alisowski/vidj/client/templates/browseRooms.js",
 		"/Users/alisowski/vidj/vidj.js",
 		"/Users/alisowski/vidj/vidj.coffee",
 		"/Users/alisowski/vidj/vidj.less",
 		"/Users/alisowski/vidj/client/templates/loadingPage.html",
-		"/Users/alisowski/vidj/client/templates/home.html",
-		"/Users/alisowski/vidj/client/templates/findRoom.html",
-		"/Users/alisowski/vidj/client/templates/enteredRoom.html",
-		"/Users/alisowski/vidj/client/templates/createARoom.html",
 		"/Users/alisowski/vidj/client/templates/contact.html",
-		"/Users/alisowski/vidj/client/templates/chooseModeScreen.html",
-		"/Users/alisowski/vidj/client/templates/browseRooms.html",
-		"/Users/alisowski/vidj/client/templates/addVideoScreen.html",
 		"/Users/alisowski/vidj/client/templates/about.html",
 		"/Users/alisowski/vidj/vidj.html",
 		"/Users/alisowski/vidj/loadingPage.html",
@@ -454,7 +500,7 @@
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 93.0,
 		"where_history":
 		[
 			""
@@ -465,6 +511,74 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"addmod",
+			"next",
+			"bg",
+			"AmplifiedSession",
+			"playlist",
+			"playlis",
+			"addv",
+			"playlis",
+			"results",
+			"playlist",
+			"play",
+			"row",
+			"choose",
+			"choos",
+			"coose",
+			"from",
+			"rom",
+			"choose",
+			"future",
+			"meteor.rout",
+			"body",
+			"height: auto",
+			"playlist",
+			"max-",
+			"container",
+			"amplified",
+			"Amplified",
+			"AmplifiedSession.get",
+			"AmplifiedSession.set",
+			"amplify",
+			"local",
+			"result",
+			"ADD",
+			"abso",
+			"room",
+			"media",
+			"borderP",
+			"-60",
+			"brow",
+			"scroll",
+			"purp",
+			"delete",
+			"hover",
+			"border",
+			"about",
+			"home",
+			"currentV",
+			"playlist",
+			"addVide",
+			"playlist",
+			"playing",
+			"adding",
+			"update",
+			"room_id",
+			"console.log",
+			"haveData",
+			"start",
+			"var",
+			"create",
+			"call",
+			"create",
+			"click .choose",
+			"update",
+			"gapi",
+			"search",
+			"amplif",
+			"findRoom",
+			"browse",
 			"update",
 			"Videos.update",
 			"Rooms.update",
@@ -524,75 +638,7 @@
 			"hover",
 			"hov",
 			"a:",
-			"absol",
-			"page",
-			"con",
-			"container",
-			"footer",
-			"wide",
-			"home-hero",
-			"wide",
-			"about",
-			"500",
-			"font-famil",
-			"font",
-			"about",
-			"about-icon",
-			"footer",
-			"home-hero",
-			"mode",
-			"plus",
-			"down",
-			"btn-add",
-			"index",
-			"Index",
-			"index",
-			"Y",
-			"current",
-			"currentV",
-			"currentVideoI",
-			"wide",
-			"container",
-			"992px",
-			"mode",
-			"absol",
-			"btn-room",
-			"absol",
-			"page",
-			"brow",
-			"900",
-			"padding-top",
-			"purp",
-			"btn-home",
-			"blue",
-			"nav",
-			"blue",
-			"purp",
-			"home",
-			"purp",
-			"wide",
-			"page",
-			"contain",
-			"body",
-			"home",
-			"wide",
-			"body",
-			"html",
-			"PAGE",
-			"BG",
-			"BBG",
-			"brand",
-			"find",
-			"vidj",
-			"choose",
-			"console",
-			"playlist",
-			"page",
-			"videoDate",
-			"each",
-			"ok",
-			"create",
-			"cons"
+			"absol"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -600,6 +646,10 @@
 		"regex": true,
 		"replace_history":
 		[
+			"Session",
+			"",
+			"localStorage.getItem",
+			"localStorage.setItem",
 			"sm"
 		],
 		"reverse": false,
@@ -611,8 +661,37 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "client/js/application.js",
+					"settings":
+					{
+						"buffer_size": 8422,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5966,
+								5966
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2195.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -672,6 +751,6 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 150.0,
+	"side_bar_width": 196.0,
 	"status_bar_visible": true
 }

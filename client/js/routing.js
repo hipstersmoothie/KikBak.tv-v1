@@ -47,7 +47,7 @@ Meteor.Router.add({
   '/': function() {
     var currDate = new Date();
     var iOS = ( navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false );
-    if(localStorage.getItem('stateTime') && currDate.getTime() - localStorage.getItem('stateTime')<= 3600000 && iOS)
+    if(localStorage.getItem('stateTime') && currDate.getTime() - localStorage.getItem('stateTime')<= 3600000 && iOS && window.navigator.standalone)
       Meteor.Router.to(localStorage.getItem('state'));
     return 'Home';
   },
