@@ -5,9 +5,6 @@ Meteor.startup(function () {
   Session.set('room_id', null);
   Session.set('videos', null);
   Session.set('videos_id', null);
-  Session.set('playing', false);
-  // switch between adding view and playlist
-  Session.set('adding', false);
   // addvideopage switch add method
   Session.set('linkGrabber', false);
 });
@@ -22,7 +19,6 @@ Deps.autorun(function(){
     videosHandle = null;
 });
 
-
 /////////////////// Entered Room ///////////////////
 Template.Home.events({
   'click .down' : function() {
@@ -32,16 +28,14 @@ Template.Home.events({
   }
 });
 
+var played;
+
 Template.EnteredRoom.loading = function () {
   return videosHandle && !videosHandle.ready();
 };
 
 Template.EnteredRoom.room = function () {
   return Rooms.findOne({urlId:Session.get('room_id')});
-};
-
-Template.EnteredRoom.adding = function () {
-  return !Session.get('adding');
 };
 
 Template.EnteredRoom.video_objs = function () {
@@ -51,14 +45,20 @@ Template.EnteredRoom.video_objs = function () {
     return 0;
 };
 
+Template.EnteredRoom.created = function() {
+  played = false;
+};
+
 Template.EnteredRoom.rendered = function () {
   $("#searchTerms").keyup(function (e) {
     if (e.keyCode == 13)
       searchVids();
   });
-  if(!Session.get('playing') && !Session.get('adding') && Session.get('videos') && Session.get('videos').videoIds.length) {
+
+  console.log(played);
+  if(!played && Session.get('videos') && Session.get('videos').videoIds.length) {
     $('#youtube-video').show();
-    Session.set('playing', true);
+    played = true;
     var currVid = 0; // Session.get('videos').currentVideoIndex, 
         playlist = Session.get('videos').videoIds;
     
@@ -69,27 +69,54 @@ Template.EnteredRoom.rendered = function () {
 Template.EnteredRoom.videoData = function() {
   Session.set('videos', Videos.findOne({room_id: Session.get('room_id')}));
   if (Session.get('videos') && Session.get('videos').videoIds)
-    getPlaylist();
-
+    getPlaylist("video");
   return 0;
 };
 
-var video= {};
+var video= {}, offset = 0;
 
 var renderVid = function(playlist, currVid) {
+  changeCurrent(currVid);
   Session.set('currentVideoIndex', currVid);
   video = Popcorn.smart('#youtube-video', 'http://www.youtube.com/embed/' + playlist[currVid] + '&html5=1');
-  var tmp = $('#playlist')[0].firstChild;
   video.on("ended", function() {
     playlist = Session.get('videos').videoIds;
-    if (++currVid < Session.get('videos').videoIds.length) 
+    if (++currVid < Session.get('videos').videoIds.length) {
+      offset += 50;
+      $('#playlist').slimScroll({ scrollTo: offset + 'px'});
       renderVid(playlist, currVid);
-    else {
-      Session.set('playing', false);
+    } else {
+      played = false;
       $('#youtube-video').hide();
       $('.error').show();
     }
   });
+};
+
+var changeCurrent = function(newActive) {
+  var currVids = Session.get('videos').videoIds.length;
+  for (var i = 0; i < currVids; i++) {
+    if ($('#vid' + i).hasClass('purpActive')) {
+      $('#vid' + i).removeClass('purpActive')
+      $('#vid' + i).addClass('purpDull')
+    } else if ($('#vid' + i).hasClass('blueActive')) {
+      $('#vid' + i).removeClass('blueActive')
+      $('#vid' + i).addClass('blueDull')
+    } else if ($('#vid' + i).hasClass('greenActive')) {
+      $('#vid' + i).removeClass('greenActive')
+      $('#vid' + i).addClass('greenDull')
+    }
+  }
+  if ($('#vid' + newActive).hasClass('purpDull')) {
+    $('#vid' + newActive).removeClass('purpDull')
+    $('#vid' + newActive).addClass('purpActive')
+  } else if ($('#vid' + newActive).hasClass('blueDull')) {
+    $('#vid' + newActive).removeClass('blueDull')
+    $('#vid' + newActive).addClass('blueActive')
+  } else if ($('#vid' + newActive).hasClass('greenDull')) {
+    $('#vid' + newActive).removeClass('greenDull')
+    $('#vid' + newActive).addClass('greenActive')
+  }
 };
 
 var searchVids = function() {
@@ -110,16 +137,18 @@ var searchVids = function() {
         color = !color;
         $('#results').append('<div class="choose row" id="' + response.result.items[i].id.videoId + '"><img style="padding:0px;" class="col-xs-3" src="http://img.youtube.com/vi/' + response.result.items[i].id.videoId +'/0.jpg" /><span class="future col-xs-9 ' + style + '">' + response.result.items[i].snippet.title + '</br>from ' + response.result.items[i].snippet.channelTitle + '<span class="hidden vId">' + response.result.items[i].id.videoId + '</span></span></div>');
       };
-      $("#results").mCustomScrollbar({
-        theme:"light",
-        scrollInertia:0
+      $('#results').slimScroll({
+          position: 'left',
+          height: '100%',
+          railVisible: true,
+          alwaysVisible: true
       });
     });
   });
-}
+};
 
-var getPlaylist = function() {
-  var ids = "", color = false;
+var getPlaylist = function(mode) {
+  var ids = "", style;
   for(var i = 0; i < Session.get('videos').videoIds.length; i++) {
     ids += Session.get('videos').videoIds[i];
     if (i < Session.get('videos').videoIds.length - 1)
@@ -131,24 +160,35 @@ var getPlaylist = function() {
     request.execute(function(response) {
       $('#playlist').html('');
       for(var i = 0; i < response.items.length; i++) {
-        var style = color ? "blue" : "purp";
-        color = !color;
-        $('#playlist').append('<div class="next"><span class="future col-lg-12 ' + style + '">' + response.items[i].snippet.title + '<span class="hidden vId">' + i + '</span></span></div>');
+        if (i % 3 == 0)
+          style = "purpDull";
+        if (i % 3 == 1)
+          style = "blueDull";
+        if (i % 3 == 2) 
+          style = "greenDull";
+        $('#playlist').append('<div class="next row" style="padding-left:25px;height90%"><span id="vid' + i + '" class="future col-xs-11 ' + style + '">' + response.items[i].snippet.title + '<span class="hidden vId">' + i + '</span></span></div>');
       }
-      $('#playlist').scrollTop($('#playlist')[0].scrollHeight);
-      $("#playlist").mCustomScrollbar({
-          theme:"light"
+      // $('#playlist').scrollTop($('#playlist')[0].scrollHeight);
+      $('#playlist').slimScroll({
+          position: 'right',
+          height: '100%',
       });
+      if(mode == "video") {
+        changeCurrent(Session.get('currentVideoIndex'));
+        $('#playlist').slimScroll({ scrollTo: $('#vid' + Session.get('currentVideoIndex')).offset().top - 200});
+      }
     });
   });
 };
 
 Template.EnteredRoom.events({
   'click #toAddVideo' : function () {
-    Session.set('adding', true);
+    $('.playlist-height').hide();
+    $('.addVideoPanel').show();
   },
   'click .delete' : function() {
-    Session.set('adding', false);
+    $('.playlist-height').show();
+    $('.addVideoPanel').hide();
   },
   'click .searchYoutube' : function() {
     searchVids();
@@ -161,12 +201,34 @@ Template.EnteredRoom.events({
       if (error) 
         console.log(error);
 
-      Session.set('adding', false);
+      $('.playlist-height').show();
+      $('.addVideoPanel').hide();
     });
   },
   'click .next' : function(event) {
     video.destroy();
     var currVid = event.srcElement.children[0].childNodes[0].data, playlist = Session.get('videos').videoIds;
+    var currVid1 = Session.get('currentVideoIndex');
+    if ($('#vid' + currVid1).hasClass('purpActive')) {
+      $('#vid' + currVid1).removeClass('purpActive')
+      $('#vid' + currVid1).addClass('purpDull')
+    } else if ($('#vid' + currVid1).hasClass('blueActive')) {
+      $('#vid' + currVid1).removeClass('blueActive')
+      $('#vid' + currVid1).addClass('blueDull')
+    } else if ($('#vid' + currVid1).hasClass('greenActive')) {
+      $('#vid' + currVid1).removeClass('greenActive')
+      $('#vid' + currVid1).addClass('greenDull')
+    }
+    if ($('#vid' + currVid ).hasClass('purpDull')) {
+      $('#vid' + currVid ).removeClass('purpDull')
+      $('#vid' + currVid ).addClass('purpActive')
+    } else if ($('#vid' + currVid ).hasClass('blueDull')) {
+      $('#vid' + currVid ).removeClass('blueDull')
+      $('#vid' + currVid ).addClass('blueActive')
+    } else if ($('#vid' + currVid ).hasClass('greenDull')) {
+      $('#vid' + currVid ).removeClass('greenDull')
+      $('#vid' + currVid ).addClass('greenActive')
+    }
     renderVid(playlist, currVid);
   },
   'click #toFullscreen' : function() {
@@ -178,6 +240,8 @@ Template.EnteredRoom.events({
     if (Session.get('currentVideoIndex') > 0) {
       video.destroy();
       var playlist = Session.get('videos').videoIds;
+      offset -= 50;
+      $('#playlist').slimScroll({ scrollTo: offset + 'px'});
       renderVid(playlist, Session.get('currentVideoIndex') - 1);
     }
   },
@@ -185,6 +249,8 @@ Template.EnteredRoom.events({
     if (Session.get('currentVideoIndex') + 1 < Session.get('videos').videoIds.length) {
       video.destroy();
       var playlist = Session.get('videos').videoIds;
+      offset += 50;
+      $('#playlist').slimScroll({ scrollTo: offset + 'px'});
       renderVid(playlist, Session.get('currentVideoIndex') + 1);
     }
   }

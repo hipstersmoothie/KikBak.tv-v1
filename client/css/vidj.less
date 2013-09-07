@@ -1,8 +1,40 @@
-@import "/packages/bootstrap3-less/bootstrap.lessimport";
+@import "/client/css/bootstrap.css";
 @blue: #7AB6D6;
 @darkblue: #3788b3;
 @purple: #D67AB6;
 @green: #BBD982;
+@darkblue2: #1c465c;
+@darkpurple: #6b2151;
+@darkgreen: #4c651f;
+
+
+.purpDull {
+    border-left: 10px solid @darkpurple;
+    color: rgba(255,255,255,0.6);
+}
+
+.purpActive {
+    border-left: 10px solid @purple;
+}
+
+.blueDull {
+    border-left: 10px solid @darkblue2;
+    color: rgba(255,255,255,0.6);
+}
+
+.blueActive {
+    border-left: 10px solid @blue;
+}
+
+.greenDull {
+    border-left: 10px solid @darkgreen;
+    color: rgba(255,255,255,0.6);
+}
+
+.greenActive {
+    border-left: 10px solid @green;
+}
+
 
 
 @media screen and (-webkit-min-device-pixel-ratio:0) { 
@@ -300,6 +332,7 @@ img.bg {
     .down {
         height: 75px;
         margin-top: 6%;
+        cursor: pointer;
     }
 
     .home-hero .btn {
@@ -354,6 +387,7 @@ img.bg {
     height: 100%;
 
     .playlist-container {
+        background-color: #191919;
         float: right;
         font-size: 15px;
         color: white;
@@ -364,13 +398,10 @@ img.bg {
             overflow: scroll;
             height: 75%;  
 
-            .future {
-
+            next {
+                background-color: black;               
+                border-bottom: 3px solid #979797;
             }
-        }
-
-        .controls {
-            padding-left: 11%;
         }
 
         @media (min-width: 767px) {
@@ -399,7 +430,9 @@ img.bg {
     }
 
     .future {
-        padding-left: 2px;
+        padding-left: 8px;
+        padding-bottom: 10px;
+        font-size: 14px;
         padding-right: 0px;
         cursor: pointer;
     }
@@ -450,7 +483,6 @@ img.bg {
         }
         @media (min-width: 767px) {
             #results {
-                overflow-y: scroll;
                 overflow-x: hidden;
             }
         }
@@ -530,6 +562,12 @@ img.bg {
             height: 100%;
             #playlist {
                 height: 90%;
+                .future {
+                    padding-left: 8px;
+                    padding-bottom: 10px;
+                    font-size: 14px;
+                    padding-right: 0px;
+                }
             }
         }
 
@@ -710,11 +748,6 @@ legend {
     .rooms {
         padding: 19% 5%;
     }      
-}
-
-.down {
-  margin-top: 27px;
-  cursor: pointer;
 }
 
 .btn-room {

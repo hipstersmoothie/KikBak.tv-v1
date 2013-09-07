@@ -4,12 +4,14 @@
       <div class="form-horizontal row Absolute-Center-Add" style="border-left:10px solid #BBD982;border-right:10px solid #BBD982">
         <div class="playlist-container text-center col-sm-5 text-center">
           <h2>Current Playlist:</h2>
-          <div id="playlist">
-            {{#if videoData}}
-              {{videoData}}
-            {{else}}
-              <p>No videos, try adding one!</p>
-            {{/if}} 
+          <div class="playlist-height" style="height:90%">
+            <div id="playlist">
+              {{#if videoData}}
+                {{videoData}}
+              {{else}}
+                <p>No videos, try adding one!</p>
+              {{/if}} 
+            </div>
           </div>
         </div>
 
@@ -42,7 +44,7 @@
                 </div>
                 <div class="success"></div>
               {{else}}
-                <form class="form-horizontal" style="height:75%;">
+                <form class="form-horizontal" style="height:69%;">
                   <div class="input-group">
                     <input type="text" class="form-control" id="searchTerms">
                     <span class="input-group-btn">

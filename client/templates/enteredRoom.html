@@ -15,19 +15,22 @@
             <div class="col-xs-12 col-sm-10 video-container" style="font-size:30px;color:white;">No Videos :( Try adding one!</div>
             {{/if}}
           
-          {{#isolate}}
+          
               <div class="playlist-container col-sm-2">
                 <div class="row">
-                  <legend class="col-sm-8 down">{{room.name}}</legend>
-                  <div class="col-sm-2 "><a id="toFullscreen"><h5 class="plus">F</h5></a></div>
-                  <div class="col-sm-2"><a id="toAddVideo"><h5 class="plus">+</h5></a></div>
-                  <h5 class="roomid">Room ID: {{room.urlId}}</h5>
+                  <div class="row">
+                    <a href="" id="toFullscreen" class="col-sm-6" style="padding: 0px;color: #979797;text-decoration:none;">[fullscreen]</a>
+                    <a href="" id="toAddVideo" class="col-sm-6" style="padding: 0px;color: #979797;text-decoration:none;text-align:right;">[add]</a>
+                  </div>
+                  <div style="overflow-x:scroll;width:500px;" id="roomTitle"><h2 class="col-sm-12" id="title">{{room.name}}</h2></div>
+                  <h5 class="">Room ID: {{room.urlId}}</h5>
                 </div>
-                {{#if adding}}
-                <div id="playlist">
+                {{#isolate}}
+                <div class="playlist-height" style="height:81%">
+                  <div id="playlist">
+                  </div>
                 </div>
-                {{else}}
-                <div class="addVideoPanel">
+                <div class="addVideoPanel" style="display:none;">
                   <form class="form-horizontal">
                       <h5>Add a Video</h5>
                       <div class="input-group">
@@ -42,16 +45,14 @@
                       </div>
                   </form>
                 </div>
-                {{/if}}
+                {{/isolate}}
                 {{#each videoData}}
                 {{/each}}
                 <div class="controls">
-                  <div class="col-sm-6 "><a id="previous"><h5 class="plus"><</h5></a></div>
-                  <div class="col-sm-6 "><a id="nextVideo"><h5 class="plus">></h5></a></div>
+                  <div class="col-sm-6 " style="text-decoration:none;padding-left:0px;"><a href="" id="previous" style="color:#979797">&lt;prev</a></div>
+                  <div class="col-sm-6 " style="text-decoration:none;text-align:right;"><a href="" id="nextVideo" style="color:#979797">next&gt;</a></div>
                 </div>
               </div>
-             
-          {{/isolate}}
       <div>
     {{/if}}
   </div>
