@@ -11,3 +11,13 @@ Meteor.startup(function () {
   // addvideopage switch add method
   Session.set('linkGrabber', false);
 });
+
+var videosHandle = null;
+
+Deps.autorun(function(){
+  var room_id = Session.get('room_id');
+  if (room_id)
+    videosHandle = Meteor.subscribe('videosQue', room_id);
+  else
+    videosHandle = null;
+});

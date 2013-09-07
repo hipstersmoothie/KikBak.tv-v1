@@ -18,12 +18,10 @@
           {{#isolate}}
               <div class="playlist-container col-sm-2">
                 <div class="row">
-                  <div class="row">
-                    <a href="" id="toFullscreen" class="col-sm-6" style="padding: 0px;color: #979797;text-decoration:none;">[fullscreen]</a>
-                    <a href="" id="toAddVideo" class="col-sm-6" style="padding: 0px;color: #979797;text-decoration:none;text-align:right;">[add]</a>
-                  </div>
-                  <h2 class="col-sm-12" id="title">{{room.name}}</h2>
-                  <h5 class="">Room ID: {{room.urlId}}</h5>
+                  <legend class="col-sm-8 down">{{room.name}}</legend>
+                  <div class="col-sm-2 "><a id="toFullscreen"><h5 class="plus">F</h5></a></div>
+                  <div class="col-sm-2"><a id="toAddVideo"><h5 class="plus">+</h5></a></div>
+                  <h5 class="roomid">Room ID: {{room.urlId}}</h5>
                 </div>
                 {{#if adding}}
                 <div id="playlist">
@@ -47,7 +45,6 @@
                 {{/if}}
                 {{#each videoData}}
                 {{/each}}
-
                 <div class="controls">
                   <div class="col-sm-6 "><a id="previous"><h5 class="plus"><</h5></a></div>
                   <div class="col-sm-6 "><a id="nextVideo"><h5 class="plus">></h5></a></div>
@@ -58,5 +55,4 @@
       <div>
     {{/if}}
   </div>
-  <div id="hidden-resizer" style="visibility: hidden"></div>
 </template>

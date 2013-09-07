@@ -1,11 +1,8 @@
-@import "/client/css/bootstrap.css";
+@import "/packages/bootstrap3-less/bootstrap.lessimport";
 @blue: #7AB6D6;
 @darkblue: #3788b3;
-@darkblue2: #1c465c;
 @purple: #D67AB6;
-@darkpurple : #6b2151;
 @green: #BBD982;
-@darkgreen: #4c651f;
 
 
 @media screen and (-webkit-min-device-pixel-ratio:0) { 
@@ -209,33 +206,6 @@ html, body, .container, .page, .currRoom {
     }
 }
 
-.purpDull {
-    border-left: 10px solid @darkpurple;
-    color: rgba(255,255,255,0.6);
-}
-
-.purpActive {
-    border-left: 10px solid @purple;
-}
-
-.blueDull {
-    border-left: 10px solid @darkblue2;
-    color: rgba(255,255,255,0.6);
-}
-
-.blueActive {
-    border-left: 10px solid @blue;
-}
-
-.greenDull {
-    border-left: 10px solid @darkgreen;
-    color: rgba(255,255,255,0.6);
-}
-
-.greenActive {
-    border-left: 10px solid @green;
-}
-
 .purp {
     color: @purple;
 }
@@ -330,7 +300,6 @@ img.bg {
     .down {
         height: 75px;
         margin-top: 6%;
-        cursor: pointer;
     }
 
     .home-hero .btn {
@@ -385,7 +354,6 @@ img.bg {
     height: 100%;
 
     .playlist-container {
-        background-color: #191919;
         float: right;
         font-size: 15px;
         color: white;
@@ -396,9 +364,8 @@ img.bg {
             overflow: scroll;
             height: 75%;  
 
-            .next {
-                background-color: black;
-                border-bottom: 3px solid #979797;
+            .future {
+
             }
         }
 
@@ -432,11 +399,9 @@ img.bg {
     }
 
     .future {
-        padding-left: 8px;
-        padding-bottom: 10px;
+        padding-left: 2px;
         padding-right: 0px;
         cursor: pointer;
-        font-size: 14px;
     }
 }
 
@@ -745,6 +710,11 @@ legend {
     .rooms {
         padding: 19% 5%;
     }      
+}
+
+.down {
+  margin-top: 27px;
+  cursor: pointer;
 }
 
 .btn-room {
