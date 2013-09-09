@@ -31,7 +31,7 @@ Template.Home.events({
 var played;
 
 Template.EnteredRoom.loading = function () {
-  return videosHandle && !videosHandle.ready();
+  return videosHandle && !videosHandle.ready() && !Videos.findOne({room_id: Session.get('room_id')});
 };
 
 Template.EnteredRoom.room = function () {
@@ -54,8 +54,31 @@ Template.EnteredRoom.rendered = function () {
     if (e.keyCode == 13)
       searchVids();
   });
+  
+  if (Session.get('videos') && !Session.get('videos').videoIds.length) {
+    $('#msg').html('');
+    $('#msg').append('No Videos :( Try adding one!');
+  }
 
-  console.log(played);
+  if ($('.marquee-text')[0].innerText.length > 13) {
+    var marquee = $('div.marquee'), adj = 0;
+    for(var i = 10; i < $('.marquee-text')[0].innerText.length; i++)
+      adj += 15
+
+    console.log($('div.marquee').width() + adj);
+    marquee.each(function() {
+        var mar = $(this),indent = mar.width();
+        mar.marquee = function() {
+            indent--;
+            mar.css('text-indent',indent);
+            if (indent < -1 * (mar.width() + adj)) {
+                indent = mar.width();
+            }
+        };
+        mar.data('interval',setInterval(mar.marquee,2000/60));
+    });
+  }
+
   if(!played && Session.get('videos') && Session.get('videos').videoIds.length) {
     $('#youtube-video').show();
     played = true;
@@ -82,7 +105,7 @@ var renderVid = function(playlist, currVid) {
   video.on("ended", function() {
     playlist = Session.get('videos').videoIds;
     if (++currVid < Session.get('videos').videoIds.length) {
-      offset += 50;
+      offset += $('#vid' + (currVid-1))[0].clientHeight;
       $('#playlist').slimScroll({ scrollTo: offset + 'px'});
       renderVid(playlist, currVid);
     } else {
@@ -175,8 +198,10 @@ var getPlaylist = function(mode) {
       });
       if(mode == "video") {
         changeCurrent(Session.get('currentVideoIndex'));
-        $('#playlist').slimScroll({ scrollTo: $('#vid' + Session.get('currentVideoIndex')).offset().top - 200});
+        $('#playlist').slimScroll({ scrollTo: $('#vid' + Session.get('currentVideoIndex')).offsetTop});
       }
+      if(mode == "edit") 
+        $('#playlist').slimScroll({ scrollTo: $('#vid' + (Session.get('videos').videoIds.length - 1))[0].offsetTop});
     });
   });
 };
@@ -207,7 +232,7 @@ Template.EnteredRoom.events({
   },
   'click .next' : function(event) {
     video.destroy();
-    var currVid = event.srcElement.children[0].childNodes[0].data, playlist = Session.get('videos').videoIds;
+    var currVid = parseInt(event.srcElement.children[0].childNodes[0].data, playlist = Session.get('videos').videoIds);
     var currVid1 = Session.get('currentVideoIndex');
     if ($('#vid' + currVid1).hasClass('purpActive')) {
       $('#vid' + currVid1).removeClass('purpActive')
@@ -229,6 +254,9 @@ Template.EnteredRoom.events({
       $('#vid' + currVid ).removeClass('greenDull')
       $('#vid' + currVid ).addClass('greenActive')
     }
+    offset = $('#vid' + (currVid - 1))[0].offsetTop;
+    $('#vid' + (currVid - 1))[0].offsetTop
+    $('#playlist').slimScroll({ scrollTo: offset + 'px'});
     renderVid(playlist, currVid);
   },
   'click #toFullscreen' : function() {
@@ -240,7 +268,7 @@ Template.EnteredRoom.events({
     if (Session.get('currentVideoIndex') > 0) {
       video.destroy();
       var playlist = Session.get('videos').videoIds;
-      offset -= 50;
+      offset -= $('#vid' + (Session.get('currentVideoIndex') - 1))[0].clientHeight;
       $('#playlist').slimScroll({ scrollTo: offset + 'px'});
       renderVid(playlist, Session.get('currentVideoIndex') - 1);
     }
@@ -249,7 +277,7 @@ Template.EnteredRoom.events({
     if (Session.get('currentVideoIndex') + 1 < Session.get('videos').videoIds.length) {
       video.destroy();
       var playlist = Session.get('videos').videoIds;
-      offset += 50;
+      offset += $('#vid' + Session.get('currentVideoIndex'))[0].clientHeight;;
       $('#playlist').slimScroll({ scrollTo: offset + 'px'});
       renderVid(playlist, Session.get('currentVideoIndex') + 1);
     }
@@ -265,7 +293,7 @@ Template.AddVideoScreen.room = function () {
 Template.AddVideoScreen.videoData = function() {
   Session.set('videos', Videos.findOne({room_id: Session.get('room_id')}));
   if (Session.get('videos') && Session.get('videos').videoIds) 
-    getPlaylist();
+    getPlaylist("edit");
 
   return "Loading";
 };
@@ -311,7 +339,6 @@ Template.AddVideoScreen.events({
     searchVids();
   },
   'click .choose' : function(event) {
-        console.log(event);
     var chosen = event.srcElement.children[1].childNodes[0].data;
     vid_id = Session.get('videos_id') ? Session.get('videos_id') : Videos.findOne({room_id: Session.get('room_id')})._id;
     Videos.update({ _id: vid_id}, {$inc:{totalVideos:1},

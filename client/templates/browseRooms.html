@@ -1,22 +1,20 @@
 <template name="BrowseRooms">
 <!--   <img class="bg" src="img/purpback.jpg" alt="">
- -->  {{#if loading}}
-    <div id="rooms">Loading...</div>
-  {{else}}
-    <div class="page row text-center rooms" style="max-width: 100%;">
-      <div class="rooms-container">
+ -->  
+  <div class="page row text-center rooms" style="max-width: 100%;">
+    <div class="rooms-container">
+      {{#if loading}}
+        <div id="rooms">Loading...</div>
+      {{else}}
         <h2>Search for a Room<h2>
-        
-
-<!--         <h3>Public Rooms:</h3>
- -->        <div class="buttons">
+        <div class="buttons">
           {{#each rooms}}
-            <a href="/rooms/{{urlId}}/mode" class="btn btn-sm btn-home btn-room col-md-2 col-sm-5 col-sm-offset-1 col-xs-12" style="text-align: center;font-size:25px;">
-              {{name}}
-            </a>
+          <a href="/rooms/{{urlId}}/mode" class="btn btn-sm btn-home btn-room col-sm-5 col-sm-offset-1 col-xs-12" style="text-align: center;font-size:25px;">
+            {{name}}
+          </a>
           {{/each}}
         </div>
-      </div>
+      {{/if}}
     </div>
-  {{/if}}
+  </div>
 </template>

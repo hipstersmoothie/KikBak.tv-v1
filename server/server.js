@@ -22,23 +22,14 @@ Meteor.publish('videosQue', function (room_id) {
   return Videos.find({room_id: room_id});
 });
 
-var urlIdCounter;
+var urlIdCounter = 0;
 function S4() {
   return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
 }
 
-var generateUid = function () {  
-  return (S4() + S4() + delim + S4() + delim + S4() + delim + S4() + delim + S4() + S4() + S4());
-};
-
 var newId = function() {
   var counter, urlId;
-  if (urlIdCounter === undefined) 
-    counter = 0;
-  else
-    counter = ++urlIdCounter;
-  console.log(urlIdCounter);
-
+  counter = ++urlIdCounter;
   urlId = S4() + counter.toString();
   return urlId;
 };
